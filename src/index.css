@@ -1,0 +1,17 @@
+:root {
+  --grey-990: #1e2125;
+  --grey-950: #030712;
+  --grey-930: #30343a;
+  --grey-900: #111827;
+  --grey-800: #1f2937;
+  --grey-700: #374151;
+  --grey-400: #9ca3af;
+  --grey-300: #d1d5db;
+  --grey-200: #e5e7eb;
+  --grey-100: #f3f4f6;
+  --grey-50: #f9fafb;
+}
+
+body {
+  background-color: var(--grey-990);
+}
