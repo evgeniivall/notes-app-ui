@@ -1,0 +1,31 @@
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  gap: 8px;
+}
+
+.navItem:hover {
+  background-color: var(--grey-930);
+}
+
+.navItem .icon {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: flex-start;
+}
+
+.navItem .label {
+  color: var(--grey-100, #f3f4f6);
+
+  /* Body */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}

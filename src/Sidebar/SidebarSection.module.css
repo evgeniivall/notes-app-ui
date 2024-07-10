@@ -1,0 +1,9 @@
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+span {
+  color: var(--grey-100);
+}

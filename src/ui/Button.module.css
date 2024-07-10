@@ -1,0 +1,33 @@
+.icon-btn {
+  display: inline-flex;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 4px;
+  background: var(--grey-930, #30343a);
+
+  /* shadow-small */
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+
+  position: relative;
+}
+
+.primary {
+  background-color: var(--grey-100);
+}
+
+.icon {
+}
+
+.primary .label {
+  color: var(--grey-900);
+}
+
+.icon svg path {
+  fill: var(--grey-100);
+}
+
+.primary svg path {
+  fill: var(--grey-900);
+}

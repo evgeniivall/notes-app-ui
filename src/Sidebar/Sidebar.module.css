@@ -1,0 +1,32 @@
+.sidebar {
+  display: flex;
+  box-sizing: border-box;
+  padding: 24px 16px;
+  flex-direction: column;
+  /* align-items: center; */
+  gap: 24px;
+  width: 320px;
+  height: 100%;
+  background-color: var(--grey-950);
+  box-shadow: 2px 0px 4px 0px rgba(0, 0, 0, 0.25);
+
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-110%);
+  z-index: 10;
+}
+
+.sidebar-open {
+  transform: translateX(0);
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.divider {
+  width: 100%;
+  border-color: var(--grey-400);
+  border-width: 0.5px;
+}
