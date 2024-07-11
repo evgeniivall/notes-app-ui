@@ -1,0 +1,69 @@
+.button {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  outline-color: var(--grey-100);
+}
+
+/* Primary button */
+.button.primary {
+  background-color: var(--grey-100);
+}
+
+/* Icon */
+.button.primary svg {
+  fill: var(--grey-900);
+  height: 24px;
+  width: 24px;
+}
+
+.button.primary:hover {
+  box-shadow: var(--box-shadow-medium);
+}
+
+.button.primary:focus {
+  box-shadow: var(--box-shadow-medium);
+}
+
+.button.primary:active {
+  background-color: var(--grey-200);
+}
+
+.primary .label {
+  font-weight: 700;
+  color: var(--grey-900);
+}
+
+/* Secondary button */
+.button.secondary {
+  background-color: var(--grey-950);
+}
+
+/* Icon */
+.button.secondary svg {
+  fill: var(--grey-100);
+  height: 24px;
+  width: 24px;
+}
+
+.button.secondary:hover {
+  background-color: var(--grey-930);
+  box-shadow: var(--box-shadow-small);
+}
+
+.button.secondary:focus {
+  background-color: var(--grey-930);
+  box-shadow: var(--box-shadow-small);
+}
+
+.button.secondary:active {
+  background-color: var(--grey-800);
+}

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex: 1 0 0;
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.mainContentWithSidebar {
+  @media (min-width: 768px) {
+    margin-left: var(--side-bar-width);
+    width: calc(100% - var(--side-bar-width));
+  }
+}

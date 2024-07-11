@@ -1,0 +1,19 @@
+.sidebar {
+  display: flex;
+  width: var(--side-bar-width);
+  height: 100%;
+  padding: 24px 16px;
+  flex-direction: column;
+  gap: 24px;
+
+  background-color: var(--grey-950);
+  box-shadow: var(--box-shadow-small);
+
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 10;
+}
+
+.sidebar-open {
+  transform: translateX(0);
+}
