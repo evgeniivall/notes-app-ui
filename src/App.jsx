@@ -1,43 +1,35 @@
-import { useState } from 'react';
-import Sidebar from './sidebar/Sidebar';
-import Button from './ui/Button';
-import Header from './ui/Header';
-import Search from './ui/Search';
-import Overlay from './ui/Overlay';
-import styles from './App.module.css';
-import { MenuIcon } from './icons/icons';
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
+import MainLayout from './MainLayout';
+import NotesList from './notes/NotesList';
+import Note from './notes/Note';
 
-const SM_BREAKPOINT = 768;
-const isMobileDevice = () => window.innerWidth <= SM_BREAKPOINT;
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/notes" />,
+      },
+      {
+        path: '/notes',
+        element: <NotesList />,
+      },
+      {
+        path: '/notes/:id',
+        element: <Note />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(() =>
-    isMobileDevice() ? false : true,
-  );
-  const toggleSidebar = () => setSidebarIsOpen((isOpen) => !isOpen);
-
-  return (
-    <div className={styles.container}>
-      <Sidebar isOpen={sidebarIsOpen} />
-      <div
-        className={`${styles.mainContent} ${
-          sidebarIsOpen ? styles.mainContentWithSidebar : ''
-        }`}
-      >
-        {sidebarIsOpen && isMobileDevice() && (
-          <Overlay onClick={toggleSidebar} />
-        )}
-        <Header>
-          <Button
-            type="secondary"
-            icon={<MenuIcon />}
-            onClick={toggleSidebar}
-          />
-          <Search />
-        </Header>
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

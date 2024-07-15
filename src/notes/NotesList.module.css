@@ -1,0 +1,6 @@
+.notes-list {
+  flex: 1;
+  color: var(--grey-100);
+  padding-top: 100px;
+  text-align: center;
+}
