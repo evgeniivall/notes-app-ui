@@ -6,6 +6,7 @@
   border-radius: 4px;
   transition: background-color 0.3s;
   gap: 8px;
+  outline-color: var(--grey-100);
 }
 
 .navItem .icon {
