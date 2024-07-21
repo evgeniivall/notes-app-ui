@@ -3,7 +3,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import MainLayout from './MainLayout';
+import MainLayout from './pages/MainLayout';
 import NotesList from './notes/NotesList';
 import Note from './notes/Note';
 

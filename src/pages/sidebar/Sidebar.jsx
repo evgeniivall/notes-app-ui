@@ -1,9 +1,9 @@
 import styles from './Sidebar.module.css';
-import Button from '../ui/Button';
+import Button from '../../ui/Button';
 import Divider from './Divider';
 import UserProfileSection from './UserProfileSection';
 import NavMenu from './NavMenu';
-import { AddNoteIcon } from '../icons/icons';
+import { AddNoteIcon } from '../../icons/icons';
 
 function Sidebar({ isOpen }) {
   return (

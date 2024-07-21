@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Sidebar from './sidebar/Sidebar';
-import Button from './ui/Button';
-import Header from './ui/Header';
-import Search from './ui/Search';
-import Overlay from './ui/Overlay';
-import { MenuIcon } from './icons/icons';
+import Button from '../ui/Button';
+import Header from '../ui/Header';
+import Search from '../ui/Search';
+import Overlay from '../ui/Overlay';
+import { MenuIcon } from '../icons/icons';
 
 import styles from './MainLayout.module.css';
 import { Outlet } from 'react-router-dom';

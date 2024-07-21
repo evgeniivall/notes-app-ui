@@ -1,5 +1,5 @@
 import styles from './UserProfileSection.module.css';
-import { UserIcon } from '../icons/icons';
+import { UserIcon } from '../../icons/icons';
 
 const UserProfileButton = () => {
   const user = undefined;

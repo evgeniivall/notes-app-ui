@@ -1,4 +1,4 @@
-import { NotesIcon, StarFilledIcon, TrashIcon } from '../icons/icons';
+import { NotesIcon, StarFilledIcon, TrashIcon } from '../../icons/icons';
 import NavItem from './NavItem';
 import styles from './NavMenu.module.css';
 
