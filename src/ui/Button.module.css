@@ -47,6 +47,11 @@
   background-color: var(--grey-950);
 }
 
+.button.secondary .label {
+  font-weight: 700;
+  color: var(--grey-100);
+}
+
 /* Icon */
 .button.secondary svg {
   fill: var(--grey-100);
@@ -66,4 +71,26 @@
 
 .button.secondary:active {
   background-color: var(--grey-800);
+}
+
+/* Tertiary button */
+.button.tertiary {
+  background-color: transparent;
+  padding: 2px;
+  color: var(--grey-400);
+}
+
+.button.button.tertiary :hover {
+  text-decoration: underline;
+}
+
+.button.button.tertiary :active {
+  color: var(--grey-100);
+}
+
+/* Icon */
+.button.tertiary svg {
+  fill: var(--grey-400);
+  height: 20px;
+  width: 20px;
 }
