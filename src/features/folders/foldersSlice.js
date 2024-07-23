@@ -39,8 +39,8 @@ const foldersSlice = createSlice({
       saveFoldersToLocalStorage(state.folders);
     },
     updateFolder(state, action) {
-      const { folderId, updates } = action.payload;
-      const folder = state.folders.find((folder) => folder.id === folderId);
+      const { id, updates } = action.payload;
+      const folder = state.folders.find((folder) => folder.id === id);
       if (folder) {
         Object.assign(folder, updates);
         saveFoldersToLocalStorage(state.folders);

@@ -1,10 +1,10 @@
 import Button from '../../ui/Button';
 import FolderItem from './FolderItem';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddFolderIcon } from '../../icons/icons';
 import { useSearchParams } from 'react-router-dom';
-import { createFolder, deleteFolder } from './foldersSlice';
+import { createFolder, deleteFolder, updateFolder } from './foldersSlice';
 import { folderColorOptions } from '../../constants/constants';
 import styles from './FoldersManagement.module.css';
 
@@ -62,6 +62,11 @@ function FoldersManagement() {
     }
   };
 
+  const handleFolderUpdate = useCallback(
+    (id, updates) => dispatch(updateFolder({ id, updates })),
+    [dispatch],
+  );
+
   const handleToggleEditMode = () => {
     if (isInEditMode) {
       const selectedFolders = searchParams.get('folders');
@@ -71,7 +76,6 @@ function FoldersManagement() {
           .map((id) => folders.findIndex((folder) => folder.id === id))
           .filter((index) => index !== -1);
         setActiveFolderIndices(indices);
-        console.log(indices);
       } else {
         setActiveFolderIndices([]);
       }
@@ -121,6 +125,8 @@ function FoldersManagement() {
             isActive={activeFolderIndices.includes(index)}
             onClick={() => handleFolderClick(index)}
             handleDelete={() => handleDeleteFolder(index)}
+            handleUpdate={handleFolderUpdate}
+            nameIsUnique={(name) => !folderNameIsExist(name, folders)}
           />
         ))}
         {isInEditMode && (
