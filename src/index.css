@@ -13,6 +13,15 @@
   --box-shadow-small: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
   --box-shadow-medium: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
   --side-bar-width: 320px;
+
+  --red: #fd6364;
+  --magenta: #d46cee;
+  --purple: #8c68f6;
+  --blue: #536ff6;
+  --cyan: #5ed3e3;
+  --green: #83e591;
+  --yellow: #fecf42;
+  --grey: #9ca3af;
 }
 
 * {
