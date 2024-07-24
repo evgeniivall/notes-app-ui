@@ -3,6 +3,7 @@ import Button from '../../ui/Button';
 import Divider from './Divider';
 import UserProfileSection from './UserProfileSection';
 import NavMenu from './NavMenu';
+import FoldersManagement from '../../features/folders/FoldersManagement';
 import { AddNoteIcon } from '../../icons/icons';
 
 function Sidebar({ isOpen }) {
@@ -13,6 +14,7 @@ function Sidebar({ isOpen }) {
       <Divider />
       <NavMenu />
       <Divider />
+      <FoldersManagement />
     </div>
   );
 }

@@ -1,0 +1,67 @@
+.folder-item {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  outline-color: var(--grey-100);
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s;
+  flex-grow: 1;
+}
+
+.folder-item .container {
+  display: flex;
+  padding: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+}
+
+.folder-item:hover,
+.folder-item.active {
+  background-color: var(--grey-700);
+  box-shadow: var(--box-shadow-small);
+}
+
+.folder-item:hover {
+  background-color: var(--grey-900);
+}
+
+.folder-item.active {
+  background-color: var(--grey-700);
+}
+
+.folder-item .folder-title {
+  flex-grow: 1;
+  color: var(--grey-100);
+}
+
+.folder-item .counter {
+  display: flex;
+  padding: 4px 8px;
+  justify-content: center;
+  align-items: center;
+  min-width: 32px;
+  border-radius: 4px;
+  background-color: var(--grey-700);
+  height: 24px;
+  color: var(--grey-100);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.folder-item .edit-icon {
+  color: var(--grey-400);
+  height: 20px;
+  width: 20px;
+}
+
+.folder-item:hover .edit-icon {
+  color: var(--grey-100);
+}
+
+.folder-item.active .counter {
+  background-color: var(--grey-950);
+}

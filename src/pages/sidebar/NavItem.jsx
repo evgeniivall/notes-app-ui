@@ -6,7 +6,7 @@ function NavItem({ icon, label, to, query }) {
   const getClassName = ({ isActive }) => {
     let className = styles.navItem + ' ';
     if (isActive) {
-      const hasNoSearchParams = !searchParams.size;
+      const hasNoSearchParams = !searchParams.get('filter');
       const isQueryMatch = query && searchParams.get(query.key) === query.value;
 
       if ((hasNoSearchParams && !query) || isQueryMatch) {

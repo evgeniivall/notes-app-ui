@@ -5,6 +5,9 @@ import TrashIcon from './delete-bin-fill.svg?react';
 import StarFilledIcon from './star-fill.svg?react';
 import AddNoteIcon from './sticky-note-add-fill.svg?react';
 import UserIcon from './user-3-fill.svg?react';
+import CheckIcon from './check-fill.svg?react';
+import EditIcon from './pencil-fill.svg?react';
+import AddFolderIcon from './folder-add-fill.svg?react';
 
 export {
   MenuIcon,
@@ -14,4 +17,7 @@ export {
   StarFilledIcon,
   AddNoteIcon,
   UserIcon,
+  CheckIcon,
+  EditIcon,
+  AddFolderIcon,
 };
