@@ -6,6 +6,7 @@ import ColorBox from './ColorBox';
 import Button from '../../ui/Button';
 import Input from '../../ui/Input';
 import styles from './FolderItem.module.css';
+import { normalizeWhitespace } from '../../utils/helpers';
 
 function FolderItem({
   folder,
@@ -22,7 +23,7 @@ function FolderItem({
 
   const handleNameChange = (newName) => {
     let error = '';
-    const trimmedNewname = newName.trim();
+    const trimmedNewname = normalizeWhitespace(newName);
     if (trimmedNewname === '') error = 'Folder name cannot be empty.';
     else if (!nameIsUnique(trimmedNewname) && trimmedNewname !== name)
       error = 'Folder with such name already exists. Try another one.';
@@ -42,11 +43,11 @@ function FolderItem({
   useEffect(() => {
     if (!inEditMode || (!isActive && tempFolderName !== name)) {
       if (nameValidationError === '') {
-        handleUpdate(folder.id, { name: tempFolderName.trim() });
-        setTempFolderName((name) => name.trim());
+        handleUpdate(folder.id, { name: normalizeWhitespace(tempFolderName) });
+        setTempFolderName((name) => normalizeWhitespace(name));
       } else {
         setNameValidationError('');
-        setTempFolderName(name.trim());
+        setTempFolderName(normalizeWhitespace(name));
       }
     }
   }, [
