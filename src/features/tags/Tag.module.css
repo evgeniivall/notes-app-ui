@@ -1,0 +1,21 @@
+.tag {
+  display: flex;
+  padding: 4px 8px;
+  background-color: var(--grey-900);
+  color: var(--grey-100);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+}
+.tag:hover {
+  background-color: var(--grey-700);
+}
+
+.tag.selected {
+  background-color: var(--grey-100);
+  color: var(--grey-900);
+}
