@@ -1,4 +1,4 @@
-export const folderColorOptions = [
+export const FOLDER_COLOR_OPTIONS = [
   'red',
   'magenta',
   'purple',
@@ -7,3 +7,5 @@ export const folderColorOptions = [
   'green',
   'yellow',
 ];
+
+export const FOLDER_NAME_MAX_LENGTH = 24;

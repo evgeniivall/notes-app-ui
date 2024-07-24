@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddFolderIcon } from '../../icons/icons';
 import { useSearchParams } from 'react-router-dom';
 import { createFolder, deleteFolder, updateFolder } from './foldersSlice';
-import { folderColorOptions } from '../../constants/constants';
+import { FOLDER_COLOR_OPTIONS } from '../../constants/constants';
 import styles from './FoldersManagement.module.css';
 
 const folderNameIsExist = (name, folders) => {
@@ -37,7 +37,7 @@ function FoldersManagement() {
   const handleCreateFolder = () => {
     const newFolder = {
       name: generateNewFolderName(folders),
-      color: folderColorOptions[0],
+      color: FOLDER_COLOR_OPTIONS[0],
     };
     dispatch(createFolder(newFolder));
     setActiveFolderIndices([0]);

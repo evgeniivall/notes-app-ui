@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { EditIcon, TrashIcon } from '../../icons/icons';
-import { folderColorOptions } from '../../constants/constants';
+import {
+  FOLDER_COLOR_OPTIONS,
+  FOLDER_NAME_MAX_LENGTH,
+} from '../../constants/constants';
 import ColorPicker from './ColorPicker';
 import ColorBox from './ColorBox';
 import Button from '../../ui/Button';
@@ -27,8 +30,8 @@ function FolderItem({
     if (trimmedNewname === '') error = 'Folder name cannot be empty.';
     else if (!nameIsUnique(trimmedNewname) && trimmedNewname !== name)
       error = 'Folder with such name already exists. Try another one.';
-    else if (trimmedNewname.length > 24)
-      error = 'Folder name cannot exceed 24 characters.';
+    else if (trimmedNewname.length > FOLDER_NAME_MAX_LENGTH)
+      error = 'Folder name is too long.';
 
     setTempFolderName(newName);
     setNameValidationError(error);
@@ -96,7 +99,7 @@ function FolderItem({
       </div>
       {inEditMode && isActive && (
         <ColorPicker
-          colorOptions={folderColorOptions}
+          colorOptions={FOLDER_COLOR_OPTIONS}
           activeColor={color}
           onChange={handleColorChange}
         />
