@@ -5,6 +5,7 @@ import UserProfileSection from './UserProfileSection';
 import NavMenu from './NavMenu';
 import FoldersManagement from '../../features/folders/FoldersManagement';
 import { AddNoteIcon } from '../../icons/icons';
+import TagsFilter from '../../features/tags/TagsFilter';
 
 function Sidebar({ isOpen }) {
   return (
@@ -15,6 +16,8 @@ function Sidebar({ isOpen }) {
       <NavMenu />
       <Divider />
       <FoldersManagement />
+      <Divider />
+      <TagsFilter />
     </div>
   );
 }
