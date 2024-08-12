@@ -26,6 +26,10 @@ const router = createBrowserRouter([
         path: '/notes/:id',
         element: <Note />,
       },
+      {
+        path: '/testData',
+        element: <PopulateStoreWithTestData />,
+      },
     ],
   },
 ]);
