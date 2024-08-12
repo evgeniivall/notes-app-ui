@@ -3,11 +3,11 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
 import MainLayout from './pages/MainLayout';
 import NotesList from './features/notes/NotesList';
 import Note from './features/notes/Note';
+import PopulateStoreWithTestData from './tests/generateTestData';
+import useTagProcessing from './features/tags/useTagsProcessing';
 
 const router = createBrowserRouter([
   {
@@ -31,11 +31,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  );
+  useTagProcessing();
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
