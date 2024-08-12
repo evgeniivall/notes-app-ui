@@ -48,7 +48,7 @@ const foldersSlice = createSlice({
     },
     deleteFolder(state, action) {
       state.folders = state.folders.filter(
-        (folder) => folder.id !== action.payload,
+        (folder) => folder.id !== action.payload.id || folder.isSystem,
       );
       saveFoldersToLocalStorage(state.folders);
     },
