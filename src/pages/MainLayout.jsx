@@ -10,7 +10,7 @@ import styles from './MainLayout.module.css';
 import { Outlet } from 'react-router-dom';
 
 const SM_BREAKPOINT = 768;
-const isMobileDevice = () => window.innerWidth <= SM_BREAKPOINT;
+const isMobileDevice = () => window.innerWidth < SM_BREAKPOINT;
 function MainLayout() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(() =>
     isMobileDevice() ? false : true,
