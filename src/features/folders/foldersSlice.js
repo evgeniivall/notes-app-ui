@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-
-const loadFoldersFromLocalStorage = () => {
-  const folders = localStorage.getItem('folders');
-  return folders ? JSON.parse(folders) : [];
+import {
+  loadFromLocalStorage,
+  saveDataToLocalStorage,
+} from '../../utils/helpers';
 };
 
 const saveFoldersToLocalStorage = (folders) => {
   const foldersToSave = folders.filter((folder) => !folder.isSystem);
-  localStorage.setItem('folders', JSON.stringify(foldersToSave));
+  saveDataToLocalStorage('folders', foldersToSave);
 };
 
 const initialState = {
   folders: [
-    ...loadFoldersFromLocalStorage(),
+    ...loadFromLocalStorage('folders'),
     {
       id: '0',
       color: 'grey',
@@ -53,7 +53,9 @@ const foldersSlice = createSlice({
       saveFoldersToLocalStorage(state.folders);
     },
   },
-});
+export const selectFolders = (state) => state.folders.folders;
+export const selectFolderById = (state, folderId) =>
+  state.folders.folders.find((folder) => folder.id === folderId);
 
 export const { createFolder, updateFolder, deleteFolder, validateFolderName } =
   foldersSlice.actions;
