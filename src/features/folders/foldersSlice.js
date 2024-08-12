@@ -4,7 +4,7 @@ import {
   loadFromLocalStorage,
   saveDataToLocalStorage,
 } from '../../utils/helpers';
-};
+import { createNote } from '../notes/notesSlice';
 
 const saveFoldersToLocalStorage = (folders) => {
   const foldersToSave = folders.filter((folder) => !folder.isSystem);
@@ -19,7 +19,7 @@ const initialState = {
       color: 'grey',
       name: 'Unorganized',
       isSystem: true,
-      notesCnt: 25,
+      notesCnt: 0,
     },
   ],
 };
@@ -53,6 +53,19 @@ const foldersSlice = createSlice({
       saveFoldersToLocalStorage(state.folders);
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(createNote, (state, action) => {
+      const folderId = action.payload.folderId || '0';
+      const folder = state.folders.find((folder) => folder.id === folderId);
+      if (folder) {
+        folder.notesCnt += 1;
+        saveFoldersToLocalStorage(state.folders);
+      }
+    });
+  },
+  /* TODO handle deleteNote and updateNote */
+});
+
 export const selectFolders = (state) => state.folders.folders;
 export const selectFolderById = (state, folderId) =>
   state.folders.folders.find((folder) => folder.id === folderId);
