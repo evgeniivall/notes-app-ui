@@ -2,7 +2,6 @@
   display: flex;
   width: var(--side-bar-width);
   min-height: 100%;
-  height: min-content;
   padding: 24px 16px;
   flex-direction: column;
   gap: 24px;
@@ -13,6 +12,11 @@
   transition: transform 0.5s ease-in-out;
   transform: translateX(-100%);
   z-index: 10;
+  overflow-y: scroll;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 .sidebar-open {
