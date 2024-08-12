@@ -8,11 +8,13 @@ import NotesList from './features/notes/NotesList';
 import Note from './features/notes/Note';
 import PopulateStoreWithTestData from './tests/generateTestData';
 import useTagProcessing from './features/tags/useTagsProcessing';
+import ErrorPage from './pages/Errorpage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
