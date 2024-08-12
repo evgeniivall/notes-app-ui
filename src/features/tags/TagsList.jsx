@@ -56,7 +56,7 @@ const TagsList = ({ tags, collapsable = true, parentContainerRef }) => {
       ))}
       {hasMoreTags && (
         <Button
-          type="tertiary"
+          type="wired"
           onClick={handleToggleShowAll}
           icon={showAll ? <CloseIcon /> : <MoreIcon />}
         />
