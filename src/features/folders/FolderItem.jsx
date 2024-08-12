@@ -84,11 +84,7 @@ function FolderItem({
         )}
         {inEditMode ? (
           (isActive && (
-            <Button
-              type="tertiary"
-              icon={<TrashIcon />}
-              onClick={handleDelete}
-            />
+            <Button type="wired" icon={<TrashIcon />} onClick={handleDelete} />
           )) ||
           (!isSystem && <EditIcon className={styles.editIcon} />)
         ) : (

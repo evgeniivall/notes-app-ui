@@ -1,10 +1,15 @@
-import Button from '../../ui/Button';
-import FolderItem from './FolderItem';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Button from '../../ui/Button';
+import FolderItem from './FolderItem';
 import { AddFolderIcon } from '../../icons/icons';
-import { useSearchParams } from 'react-router-dom';
-import { createFolder, deleteFolder, updateFolder } from './foldersSlice';
+import {
+  createFolder,
+  deleteFolder,
+  selectFolders,
+  updateFolder,
+} from './foldersSlice';
 import { FOLDER_COLOR_OPTIONS } from '../../constants/constants';
 import styles from './FoldersManagement.module.css';
 
@@ -27,12 +32,63 @@ const generateNewFolderName = (folders) => {
   }
 };
 
+const getFolderIndexes = (folderIds, folders) => {
+  const indices = folderIds
+    .map((id) => folders.findIndex((folder) => folder.id === id))
+    .filter((index) => index !== -1);
+
+  return indices;
+};
+
 function FoldersManagement() {
-  const folders = useSelector((state) => state.folders.folders);
+  const folders = useSelector(selectFolders);
   const [isInEditMode, setIsInEditMode] = useState(false);
-  const [activeFolderIndices, setActiveFolderIndices] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const notes = useSelector((state) => state.notes.notes);
+
+  useEffect(() => {
+    const unorganizedNotesCount = notes.reduce((cnt, note) => {
+      return note.folderId === '0' ? cnt + 1 : cnt;
+    }, 0);
+
+    dispatch(
+      updateFolder({
+        id: '0',
+        updates: { notesCnt: unorganizedNotesCount },
+      }),
+    );
+  }, [notes, dispatch]);
+
+  const getActiveFolderIndicesFromLocation = useCallback(() => {
+    const params = new URLSearchParams(location.search);
+    const selectedFolders = params.get('folders');
+    return selectedFolders
+      ? getFolderIndexes(selectedFolders.split(','), folders)
+      : [];
+  }, [location.search, folders]);
+
+  const activeFolderIndices = getActiveFolderIndicesFromLocation();
+
+  const updateUrlParams = (newActiveFolderIndices) => {
+    const params = new URLSearchParams(location.search);
+    if (newActiveFolderIndices.length > 0) {
+      const activeFolderIds = newActiveFolderIndices.map(
+        (index) => folders[index].id,
+      );
+      params.set('folders', activeFolderIds.join(','));
+    } else {
+      params.delete('folders');
+    }
+    navigate(
+      {
+        pathname: location.pathname,
+        search: params.toString(),
+      },
+      { replace: true },
+    );
+  };
 
   const handleCreateFolder = () => {
     const newFolder = {
@@ -40,25 +96,22 @@ function FoldersManagement() {
       color: FOLDER_COLOR_OPTIONS[0],
     };
     dispatch(createFolder(newFolder));
-    setActiveFolderIndices([0]);
+    updateUrlParams([0]);
   };
 
   const handleDeleteFolder = (index) => {
-    setActiveFolderIndices([]);
-    dispatch(deleteFolder(folders[index].id));
+    dispatch(deleteFolder({ id: folders[index].id }));
+    updateUrlParams([]);
   };
 
   const handleFolderClick = (index) => {
     if (isInEditMode) {
-      setActiveFolderIndices([index]);
+      updateUrlParams([index]);
     } else {
-      setActiveFolderIndices((prevIndices) => {
-        if (prevIndices.includes(index)) {
-          return prevIndices.filter((i) => i !== index);
-        } else {
-          return [...prevIndices, index];
-        }
-      });
+      const newActiveFolderIndices = activeFolderIndices.includes(index)
+        ? activeFolderIndices.filter((i) => i !== index)
+        : [...activeFolderIndices, index];
+      updateUrlParams(newActiveFolderIndices);
     }
   };
 
@@ -68,43 +121,11 @@ function FoldersManagement() {
   );
 
   const handleToggleEditMode = () => {
-    if (isInEditMode) {
-      const selectedFolders = searchParams.get('folders');
-      if (selectedFolders) {
-        const folderIds = selectedFolders.split(',');
-        const indices = folderIds
-          .map((id) => folders.findIndex((folder) => folder.id === id))
-          .filter((index) => index !== -1);
-        setActiveFolderIndices(indices);
-      } else {
-        setActiveFolderIndices([]);
-      }
-    } else {
-      setActiveFolderIndices([]);
+    if (!isInEditMode) {
+      updateUrlParams([]);
     }
     setIsInEditMode((prevMode) => !prevMode);
   };
-
-  useEffect(() => {
-    if (!isInEditMode) {
-      const params = new URLSearchParams(searchParams);
-      if (activeFolderIndices.length > 0) {
-        const activeFolderIds = activeFolderIndices.map(
-          (index) => folders[index].id,
-        );
-        params.set('folders', activeFolderIds.join(','));
-      } else {
-        params.delete('folders');
-      }
-      setSearchParams(params);
-    }
-  }, [
-    folders,
-    activeFolderIndices,
-    isInEditMode,
-    setSearchParams,
-    searchParams,
-  ]);
 
   return (
     <div className={styles.foldersManagement}>

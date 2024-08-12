@@ -3,16 +3,18 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
 import MainLayout from './pages/MainLayout';
-import NotesList from './notes/NotesList';
-import Note from './notes/Note';
+import NotesList from './features/notes/NotesList';
+import Note from './features/notes/Note';
+import PopulateStoreWithTestData from './tests/generateTestData';
+import useTagProcessing from './features/tags/useTagsProcessing';
+import ErrorPage from './pages/Errorpage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -26,16 +28,18 @@ const router = createBrowserRouter([
         path: '/notes/:id',
         element: <Note />,
       },
+      {
+        path: '/testData',
+        element: <PopulateStoreWithTestData />,
+      },
     ],
   },
 ]);
 
 function App() {
-  return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  );
+  useTagProcessing();
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

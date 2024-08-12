@@ -1,25 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-
-const loadFoldersFromLocalStorage = () => {
-  const folders = localStorage.getItem('folders');
-  return folders ? JSON.parse(folders) : [];
-};
+import {
+  loadFromLocalStorage,
+  saveDataToLocalStorage,
+} from '../../utils/helpers';
+import { createNote } from '../notes/notesSlice';
 
 const saveFoldersToLocalStorage = (folders) => {
   const foldersToSave = folders.filter((folder) => !folder.isSystem);
-  localStorage.setItem('folders', JSON.stringify(foldersToSave));
+  saveDataToLocalStorage('folders', foldersToSave);
 };
 
 const initialState = {
   folders: [
-    ...loadFoldersFromLocalStorage(),
+    ...loadFromLocalStorage('folders'),
     {
       id: '0',
       color: 'grey',
       name: 'Unorganized',
       isSystem: true,
-      notesCnt: 25,
+      notesCnt: 0,
     },
   ],
 };
@@ -48,12 +48,27 @@ const foldersSlice = createSlice({
     },
     deleteFolder(state, action) {
       state.folders = state.folders.filter(
-        (folder) => folder.id !== action.payload,
+        (folder) => folder.id !== action.payload.id || folder.isSystem,
       );
       saveFoldersToLocalStorage(state.folders);
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(createNote, (state, action) => {
+      const folderId = action.payload.folderId || '0';
+      const folder = state.folders.find((folder) => folder.id === folderId);
+      if (folder) {
+        folder.notesCnt += 1;
+        saveFoldersToLocalStorage(state.folders);
+      }
+    });
+  },
+  /* TODO handle deleteNote and updateNote */
 });
+
+export const selectFolders = (state) => state.folders.folders;
+export const selectFolderById = (state, folderId) =>
+  state.folders.folders.find((folder) => folder.id === folderId);
 
 export const { createFolder, updateFolder, deleteFolder, validateFolderName } =
   foldersSlice.actions;

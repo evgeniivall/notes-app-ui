@@ -1,0 +1,12 @@
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  white-space: nowrap;
+  gap: 8px;
+}
+
+.tagsContainer.showAll {
+  flex-wrap: wrap;
+  white-space: normal;
+}

@@ -1,12 +1,16 @@
 import styles from './Tag.module.css';
 
-function Tag({ name, isSelected, onClick }) {
+function Tag({ name, icon, style = 'solid', isSelected, onClick }) {
   return (
     <button
-      className={`${styles.tag} ${isSelected ? styles.selected : ''}`}
+      className={`${styles.tag} ${isSelected ? styles.selected : ''} ${styles[style]}`}
       onClick={onClick}
+      style={{
+        pointerEvents: onClick ? 'auto' : 'none',
+      }}
     >
-      {name}
+      {icon && icon}
+      {name && name}
     </button>
   );
 }

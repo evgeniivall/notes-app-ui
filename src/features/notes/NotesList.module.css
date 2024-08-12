@@ -1,0 +1,13 @@
+.notes-list {
+  color: var(--grey-100);
+  display: flex;
+  padding: 24px 16px;
+  padding-top: 16px;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: scroll;
+}
+
+.notes-list::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}

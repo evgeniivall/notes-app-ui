@@ -1,38 +1,66 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { selectTags } from './tagsSlice';
 import Tag from './Tag';
 import Button from '../../ui/Button';
 import styles from './TagsFilter.module.css';
 
-function TagsFilter() {
-  const tags = useSelector((state) => state.tags.tags);
-  const [selectedTagIndices, setSelectedTagIndices] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+const mapIdsToIndices = (tagIds, tags) => {
+  const indices = tagIds
+    .map((id) => tags.findIndex((tag) => tag.id === id))
+    .filter((index) => index !== -1);
 
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    if (selectedTagIndices.length > 0) {
-      const selectedTagIds = selectedTagIndices.map((index) => tags[index].id);
-      params.set('tags', selectedTagIds.join(','));
-    } else {
-      params.delete('tags');
-    }
-    setSearchParams(params);
-  }, [searchParams, setSearchParams, tags, selectedTagIndices]);
+  return indices;
+};
+
+function TagsFilter() {
+  const tags = useSelector(selectTags);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const getSelectedTagIndicesFromLocation = useCallback(() => {
+    const params = new URLSearchParams(location.search);
+    const selectedTags = params.get('tags');
+    return selectedTags ? mapIdsToIndices(selectedTags.split(','), tags) : [];
+  }, [location.search, tags]);
+
+  const selectedTagIndices = getSelectedTagIndicesFromLocation();
+
+  const updateTagsURLParams = useCallback(
+    (newSelectedTagIndices) => {
+      const params = new URLSearchParams(location.search);
+      if (newSelectedTagIndices.length > 0) {
+        const selectedTagIds = newSelectedTagIndices.map(
+          (index) => tags[index].id,
+        );
+        params.set('tags', selectedTagIds.join(','));
+      } else {
+        params.delete('tags');
+      }
+      navigate(
+        {
+          pathname: location.pathname,
+          search: params.toString(),
+        },
+        { replace: true },
+      );
+    },
+    [location.pathname, location.search, navigate, tags],
+  );
 
   const handleTagClick = useCallback(
     (index) => {
       const newSelectedTagIndices = selectedTagIndices.includes(index)
         ? selectedTagIndices.filter((i) => i !== index)
         : [...selectedTagIndices, index];
-      setSelectedTagIndices(newSelectedTagIndices);
+      updateTagsURLParams(newSelectedTagIndices);
     },
-    [selectedTagIndices],
+    [selectedTagIndices, updateTagsURLParams],
   );
 
   const handleReset = () => {
-    setSelectedTagIndices([]);
+    updateTagsURLParams([]);
   };
 
   return (
