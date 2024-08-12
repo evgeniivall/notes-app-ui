@@ -105,6 +105,8 @@
   padding: 4px;
   background-color: transparent;
   border: 1px solid var(--grey-400);
+  min-width: 28px;
+  justify-content: center;
 }
 
 .button.wired:hover {
