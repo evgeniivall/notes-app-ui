@@ -8,6 +8,10 @@ import UserIcon from './user-3-fill.svg?react';
 import CheckIcon from './check-fill.svg?react';
 import EditIcon from './pencil-fill.svg?react';
 import AddFolderIcon from './folder-add-fill.svg?react';
+import ArrowIcon from './arrow-right-s-line.svg?react';
+import MoreIcon from './more-fill.svg?react';
+import CloseIcon from './close-fill.svg?react';
+import CalendarIcon from './calendar-line.svg?react';
 
 export {
   MenuIcon,
@@ -20,4 +24,8 @@ export {
   CheckIcon,
   EditIcon,
   AddFolderIcon,
+  ArrowIcon,
+  MoreIcon,
+  CloseIcon,
+  CalendarIcon,
 };
