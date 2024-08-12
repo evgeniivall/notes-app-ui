@@ -37,6 +37,11 @@
   background-color: var(--grey-200);
 }
 
+.label {
+  flex-grow: 1;
+  text-align: left;
+}
+
 .primary .label {
   font-weight: 700;
   color: var(--grey-900);
