@@ -17,3 +17,6 @@ export function loadFromLocalStorage(name, fallback = []) {
 export function saveDataToLocalStorage(name, data) {
   localStorage.setItem(name, JSON.stringify(data));
 }
+
+const SM_BREAKPOINT = 768;
+export const isMobileDevice = () => window.innerWidth < SM_BREAKPOINT;
