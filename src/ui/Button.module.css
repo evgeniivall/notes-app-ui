@@ -29,10 +29,6 @@
   box-shadow: var(--box-shadow-medium);
 }
 
-.button.primary:focus {
-  box-shadow: var(--box-shadow-medium);
-}
-
 .button.primary:active {
   background-color: var(--grey-200);
 }
@@ -65,11 +61,6 @@
 }
 
 .button.secondary:hover {
-  background-color: var(--grey-930);
-  box-shadow: var(--box-shadow-small);
-}
-
-.button.secondary:focus {
   background-color: var(--grey-930);
   box-shadow: var(--box-shadow-small);
 }
