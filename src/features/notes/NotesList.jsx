@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectNotes } from './notesSlice';
-import { selectTags } from '../tags/tagsSlice';
 import { groupNotesByDate } from './notesGrouping';
 import Note from './Note';
 import NotesGroup from './NotesGroup';
@@ -12,7 +11,6 @@ import MessagePanel from '../../ui/MessagePanel';
 
 function NotesList() {
   const notes = useSelector(selectNotes);
-  const allTags = useSelector(selectTags);
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = useMemo(
@@ -92,7 +90,6 @@ function NotesList() {
               {group.notes.map((note) => (
                 <Note
                   noteData={note}
-                  allTags={allTags}
                   selectedTagIds={selectedTags}
                   key={note.id}
                 />
