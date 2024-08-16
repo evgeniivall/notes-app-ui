@@ -91,7 +91,7 @@ export default {
     {
       title: 'Travel Packing Checklist',
       // folderName: 'Personal',
-      tagNames: ['Travel', 'Personal'],
+      // tagNames: ['Travel', 'Personal'],
       isStarred: false,
       lastUpdated: getRandomDate('this week'),
     },
