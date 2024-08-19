@@ -18,7 +18,7 @@ function MainLayout() {
 
   return (
     <div className={styles.container}>
-      <Sidebar isOpen={sidebarIsOpen} />
+      <Sidebar isOpen={sidebarIsOpen} setIsOpen={setSidebarIsOpen} />
       <div
         className={`${styles.mainContent} ${
           sidebarIsOpen ? styles.mainContentWithSidebar : ''

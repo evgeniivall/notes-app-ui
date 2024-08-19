@@ -9,8 +9,9 @@ import TagsFilter from '../../features/tags/TagsFilter';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createNote } from '../../features/notes/notesSlice';
+import { isMobileDevice } from '../../utils/helpers';
 
-function Sidebar({ isOpen }) {
+function Sidebar({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,6 +25,7 @@ function Sidebar({ isOpen }) {
     );
 
     const newNoteId = action.payload.id;
+    if (isMobileDevice()) setIsOpen(false);
     navigate(`/notes/${newNoteId}`);
   };
 
