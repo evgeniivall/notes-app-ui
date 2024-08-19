@@ -52,6 +52,13 @@ const foldersSlice = createSlice({
       );
       saveFoldersToLocalStorage(state.folders);
     },
+    updateFolderCounter: (state, action) => {
+      const { folderId, change } = action.payload;
+      const folder = state.folders.find((folder) => folder.id === folderId);
+      if (folder) {
+        folder.notesCnt += change;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createNote, (state, action) => {
@@ -70,7 +77,12 @@ export const selectFolders = (state) => state.folders.folders;
 export const selectFolderById = (state, folderId) =>
   state.folders.folders.find((folder) => folder.id === folderId);
 
-export const { createFolder, updateFolder, deleteFolder, validateFolderName } =
-  foldersSlice.actions;
+export const {
+  createFolder,
+  updateFolder,
+  deleteFolder,
+  validateFolderName,
+  updateFolderCounter,
+} = foldersSlice.actions;
 
 export default foldersSlice.reducer;

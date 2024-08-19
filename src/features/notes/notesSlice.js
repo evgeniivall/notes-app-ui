@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { deleteFolder } from '../folders/foldersSlice';
+import { deleteFolder, updateFolderCounter } from '../folders/foldersSlice';
 import {
   loadFromLocalStorage,
   saveDataToLocalStorage,
@@ -31,12 +31,10 @@ const notesSlice = createSlice({
       saveDataToLocalStorage('notes', state.notes);
     },
     updateNote: (state, action) => {
-      const { id, title, folderId, tagIds } = action.payload;
+      const { id, updates } = action.payload;
       const existingNote = state.notes.find((note) => note.id === id);
       if (existingNote) {
-        existingNote.title = title;
-        existingNote.folderId = folderId;
-        existingNote.tagIds = tagIds;
+        Object.assign(existingNote, updates);
         saveDataToLocalStorage('notes', state.notes);
       }
     },
@@ -56,6 +54,20 @@ const notesSlice = createSlice({
     });
   },
 });
+
+export const updateNoteFolder = createAsyncThunk(
+  'notes/updateNoteFolder',
+  async ({ id, folderId }, { dispatch, getState }) => {
+    const oldNote = getState().notes.notes.find((note) => note.id === id);
+    const oldFolderId = oldNote.folderId;
+    dispatch(updateNote({ id, updates: { folderId } }));
+
+    if (oldFolderId !== folderId) {
+      dispatch(updateFolderCounter({ folderId: oldFolderId, change: -1 }));
+      dispatch(updateFolderCounter({ folderId, change: 1 }));
+    }
+  },
+);
 
 export const selectNotes = (state) => state.notes.notes;
 export const selectNoteById = (state, noteId) =>
