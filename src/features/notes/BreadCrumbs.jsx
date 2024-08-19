@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowIcon } from '../../icons/icons';
 import { isMobileDevice } from '../../utils/helpers';
 import Button from '../../ui/Button';
@@ -29,9 +29,9 @@ const BreadCrumbs = ({ folder, noteTitle }) => {
     return crumbs.map((crumb, index) => (
       <React.Fragment key={index}>
         {crumb.link ? (
-          <a href={crumb.link} className={styles.linkCrumb}>
+          <Link to={crumb.link} className={styles.linkCrumb}>
             {crumb.label}
-          </a>
+          </Link>
         ) : (
           <span className={styles.crumb}>{crumb.label}</span>
         )}
