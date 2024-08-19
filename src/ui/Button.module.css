@@ -13,6 +13,10 @@
   outline-color: var(--grey-100);
 }
 
+.medium {
+  padding: 4px;
+}
+
 /* Primary button */
 .button.primary {
   background-color: var(--grey-100);

@@ -36,11 +36,13 @@ const NoteHeader = () => {
                 />
               }
               type="secondary"
+              size="medium"
               onClick={() => setIsCollapsed((collapsed) => !collapsed)}
             />
             <Button
               icon={<MoreIcon className={styles.actionsIcon} />}
               type="secondary"
+              size="medium"
             />
           </div>
         </div>

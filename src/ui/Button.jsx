@@ -1,8 +1,11 @@
 import styles from './Button.module.css';
 
-function Button({ onClick, icon, label, type }) {
+function Button({ onClick, icon, label, type, size = 'large' }) {
   return (
-    <button className={`${styles.button} ${styles[type]}`} onClick={onClick}>
+    <button
+      className={`${styles.button} ${styles[type]} ${styles[size]}`}
+      onClick={onClick}
+    >
       {icon}
       {label && (
         <span

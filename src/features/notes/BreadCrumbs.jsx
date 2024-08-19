@@ -12,6 +12,7 @@ const BreadCrumbs = ({ folder, noteTitle }) => {
     <Button
       icon={<ArrowIcon style={{ transform: 'rotate(180deg)' }} />}
       type="secondary"
+      size="medium"
       onClick={() => navigate(-1)}
     />
   );
