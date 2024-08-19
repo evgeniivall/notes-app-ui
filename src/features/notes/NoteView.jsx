@@ -23,6 +23,11 @@ function NoteView() {
     bodyRef.current = body;
   }, [title, body]);
 
+  useEffect(() => {
+    setTitle(note.title || '');
+    setBody(note.body || note.title || '');
+  }, [note.body, note.title]);
+
   const handleBodyChange = (e) => {
     const updatedBody = e.target.value;
     setBody(updatedBody);
