@@ -8,7 +8,7 @@ import NotesList from './features/notes/NotesList';
 import PopulateStoreWithTestData from './tests/generateTestData';
 import useTagProcessing from './features/tags/useTagsProcessing';
 import ErrorPage from './pages/Errorpage';
-import NoteHeader from './features/notes/NoteHeader';
+import NoteView from './features/notes/NoteView';
 
 const router = createBrowserRouter([
   {
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/notes/:noteId',
-        element: <NoteHeader />,
+        element: <NoteView />,
       },
       {
         path: '/testData',

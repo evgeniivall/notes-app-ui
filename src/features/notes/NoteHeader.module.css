@@ -5,7 +5,7 @@
   border-radius: 4px 4px 0px 0px;
   background: var(--grey-950);
   box-shadow: var(--box-shadow-small);
-  margin: 8px 8px;
+  z-index: 1;
 }
 
 .noteHeader .content {

@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { selectNoteById, updateNoteFolder } from './notesSlice';
+import { updateNoteFolder } from './notesSlice';
 import { selectFolderById } from '../folders/foldersSlice';
 import { getCSSVariable } from '../../utils/helpers';
 import { ArrowIcon, MoreIcon } from '../../icons/icons';
@@ -10,11 +9,9 @@ import Button from '../../ui/Button';
 import styles from './NoteHeader.module.css';
 import FolderDropdown from '../folders/FolderDropdown';
 
-const NoteHeader = () => {
+const NoteHeader = ({ note }) => {
   const dispatch = useDispatch();
-  const { noteId } = useParams();
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const note = useSelector((state) => selectNoteById(state, noteId));
   const folder = useSelector((state) => selectFolderById(state, note.folderId));
 
   return (
@@ -56,7 +53,7 @@ const NoteHeader = () => {
             onChange={(value) => {
               dispatch(
                 updateNoteFolder({
-                  id: noteId,
+                  id: note.id,
                   folderId: value ? value.value : '0',
                 }),
               );

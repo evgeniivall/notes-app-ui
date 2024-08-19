@@ -14,17 +14,22 @@ const notesSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
-    createNote: (state, action) => {
-      const newNote = {
-        id: uuidv4(),
-        title: action.payload.title,
-        folderId: action.payload.folderId || '0',
-        tagIds: action.payload.tagIds || [],
-        isStarred: action.payload.isStarred || false,
-        lastUpdatedDate: action.payload.lastUpdatedDate || Date.now(),
-      };
-      state.notes.push(newNote);
-      saveDataToLocalStorage('notes', state.notes);
+    createNote: {
+      reducer: (state, action) => {
+        state.notes.push(action.payload);
+        saveDataToLocalStorage('notes', state.notes);
+      },
+      prepare: (noteData) => {
+        const newNote = {
+          id: uuidv4(),
+          title: noteData.title,
+          folderId: noteData.folderId || '0',
+          tagIds: noteData.tagIds || [],
+          isStarred: noteData.isStarred || false,
+          lastUpdatedDate: noteData.lastUpdatedDate || Date.now(),
+        };
+        return { payload: newNote };
+      },
     },
     deleteNote: (state, action) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload.id);
@@ -34,7 +39,10 @@ const notesSlice = createSlice({
       const { id, updates } = action.payload;
       const existingNote = state.notes.find((note) => note.id === id);
       if (existingNote) {
-        Object.assign(existingNote, updates);
+        Object.assign(existingNote, {
+          ...updates,
+          lastUpdatedDate: Date.now(),
+        });
         saveDataToLocalStorage('notes', state.notes);
       }
     },
