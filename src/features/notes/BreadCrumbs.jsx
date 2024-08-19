@@ -7,6 +7,7 @@ import styles from './BreadCrumbs.module.css';
 
 const BreadCrumbs = ({ folder, noteTitle }) => {
   const navigate = useNavigate();
+  const title = noteTitle || 'New note';
 
   const renderBackButton = () => (
     <Button
@@ -23,7 +24,7 @@ const BreadCrumbs = ({ folder, noteTitle }) => {
       ...(folder
         ? [{ label: folder.name, link: `/notes?folders=${folder.id}` }]
         : []),
-      { label: noteTitle },
+      { label: title },
     ];
 
     return crumbs.map((crumb, index) => (
@@ -48,7 +49,7 @@ const BreadCrumbs = ({ folder, noteTitle }) => {
     <nav className={styles.breadcrumbs}>
       {renderBackButton()}
       {isMobileDevice() ? (
-        <span className={styles.crumb}>{noteTitle}</span>
+        <span className={styles.crumb}>{title}</span>
       ) : (
         renderBreadcrumbs()
       )}
