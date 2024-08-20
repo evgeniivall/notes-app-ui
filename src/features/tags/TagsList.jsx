@@ -36,7 +36,8 @@ const TagsList = ({ tags, collapsable = true, parentContainerRef }) => {
     };
   }, [parentContainerRef, calculateVisibleTags]);
 
-  const handleToggleShowAll = () => {
+  const handleToggleShowAll = (event) => {
+    event.stopPropagation();
     setShowAll(!showAll);
   };
 
