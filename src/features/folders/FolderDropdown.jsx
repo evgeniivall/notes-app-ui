@@ -107,6 +107,9 @@ const FolderDropdown = ({ selectedFolder, onChange }) => {
       onChange={onChange}
       options={folderOptions}
       styles={customStyles}
+      components={{
+        DropdownIndicator: false,
+      }}
     />
   );
 };
