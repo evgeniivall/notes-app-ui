@@ -23,10 +23,15 @@ const tagsSlice = createSlice({
   name: 'tags',
   initialState,
   reducers: {
-    createTag: (state, action) => {
-      const newTag = { id: uuidv4(), name: action.payload.name };
-      state.tags.push(newTag);
-      saveDataToLocalStorage('tags', state.tags);
+    createTag: {
+      reducer: (state, action) => {
+        state.tags.push(action.payload);
+        saveDataToLocalStorage('tags', state.tags);
+      },
+      prepare: ({ name }) => {
+        const newTag = { id: uuidv4(), name };
+        return { payload: newTag };
+      },
     },
     deleteTag: (state, action) => {
       state.tags = state.tags.filter((tag) => tag.id !== action.payload.id);

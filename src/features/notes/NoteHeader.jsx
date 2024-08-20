@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { updateNoteFolder } from './notesSlice';
+import { updateNote, updateNoteFolder } from './notesSlice';
 import { selectFolderById } from '../folders/foldersSlice';
 import { getCSSVariable } from '../../utils/helpers';
 import { ArrowIcon, MoreIcon } from '../../icons/icons';
@@ -8,11 +8,14 @@ import BreadCrumbs from './BreadCrumbs';
 import Button from '../../ui/Button';
 import styles from './NoteHeader.module.css';
 import FolderDropdown from '../folders/FolderDropdown';
+import TagsSelect from '../tags/TagsSelect';
+import { selectTagsByIds } from '../tags/tagsSlice';
 
 const NoteHeader = ({ note }) => {
   const dispatch = useDispatch();
   const [isCollapsed, setIsCollapsed] = useState(true);
   const folder = useSelector((state) => selectFolderById(state, note.folderId));
+  const userTags = useSelector((state) => selectTagsByIds(state, note.tagIds));
 
   return (
     <div className={styles.noteHeader}>
@@ -55,6 +58,19 @@ const NoteHeader = ({ note }) => {
                 updateNoteFolder({
                   id: note.id,
                   folderId: value ? value.value : '0',
+                }),
+              );
+            }}
+          />
+          <TagsSelect
+            selectedTags={userTags}
+            onChange={(tagIds) => {
+              dispatch(
+                updateNote({
+                  id: note.id,
+                  updates: {
+                    tagIds: tagIds,
+                  },
                 }),
               );
             }}
