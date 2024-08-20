@@ -15,6 +15,8 @@ function NoteView() {
 
   const titleRef = useRef(title);
   const bodyRef = useRef(body);
+  // eslint-disable-next-line no-undef
+  const isFirstRender = useRef(process.env.NODE_ENV === 'development');
 
   // Sync refs with state
   useEffect(() => {
@@ -35,8 +37,13 @@ function NoteView() {
 
   // Save note on unmount or noteId change
   useEffect(() => {
-    /* TODO Avoid saving on first render */
     return () => {
+      // Skip saving on first render (development mode issue with Strict Mode)
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+        return;
+      }
+
       const saveNote = () => {
         const currentTitle = titleRef.current;
         const currentBody = bodyRef.current;
