@@ -93,6 +93,13 @@ const FolderDropdown = ({ selectedFolder, onChange }) => {
 
   return (
     <Select
+      theme={(theme) => ({
+        ...theme,
+        colors: {
+          ...theme.colors,
+          primary50: getCSSVariable('grey-400'),
+        },
+      })}
       placeholder="Select a folder..."
       className={styles.dropdown}
       isClearable
