@@ -8,23 +8,28 @@ function getRandomDate(range) {
       startDate = new Date(now);
       endDate = new Date(now);
       break;
+
     case 'this week':
       startDate = new Date(now);
       const dayOfWeek = now.getDay();
-      startDate.setDate(now.getDate() - dayOfWeek); // Start of the week (Sunday)
+      const dayOffset = dayOfWeek === 0 ? -6 : 1; // Adjust if today is Sunday (0), start from last Monday
+      startDate.setDate(now.getDate() - dayOfWeek + dayOffset); // Start on Monday
       endDate = new Date(startDate);
-      endDate.setDate(startDate.getDate() + 6); // End of the week (Saturday)
+      endDate.setDate(startDate.getDate() + 6); // End on Sunday
+      if (endDate > now) endDate = new Date(now); // Prevent future date
       break;
+
     case 'this month':
       startDate = new Date(now.getFullYear(), now.getMonth(), 1); // Start of this month
       endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0); // End of this month
+      if (endDate > now) endDate = new Date(now); // Prevent future date
       break;
+
     case 'this year':
-      const currentMonth = now.getMonth();
       startDate = new Date(now.getFullYear(), 0, 1); // Start of this year
-      endDate = new Date(now.getFullYear(), currentMonth, 1); // End of the previous month
-      endDate.setDate(endDate.getDate() - 1); // Last day of the previous month
+      endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // End on today
       break;
+
     default:
       throw new Error(
         "Invalid range provided. Use 'today', 'this week', 'this month', or 'this year'.",
@@ -72,7 +77,7 @@ export default {
       // folderName: 'Work',
       tagNames: ['Meeting notes', 'Important'],
       isStarred: true,
-      lastUpdated: getRandomDate('today'),
+      lastUpdated: getRandomDate('this year'),
     },
     {
       title: 'My Fitness Goals for the Year',
