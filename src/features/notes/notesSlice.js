@@ -31,7 +31,7 @@ const notesSlice = createSlice({
         return { payload: newNote };
       },
     },
-    deleteNote: (state, action) => {
+    _deleteNote: (state, action) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload.id);
       saveDataToLocalStorage('notes', state.notes);
     },
@@ -63,6 +63,16 @@ const notesSlice = createSlice({
   },
 });
 
+export const deleteNote = createAsyncThunk(
+  'notes/deleteNote',
+  async ({ id }, { dispatch, getState }) => {
+    const oldNote = getState().notes.notes.find((note) => note.id === id);
+    const oldFolderId = oldNote.folderId;
+    dispatch(notesSlice.actions._deleteNote({ id }));
+    dispatch(updateFolderCounter({ folderId: oldFolderId, change: -1 }));
+  },
+);
+
 export const updateNoteFolder = createAsyncThunk(
   'notes/updateNoteFolder',
   async ({ id, folderId }, { dispatch, getState }) => {
@@ -81,5 +91,5 @@ export const selectNotes = (state) => state.notes.notes;
 export const selectNoteById = (state, noteId) =>
   state.notes.notes.find((note) => note.id === noteId);
 
-export const { createNote, deleteNote, updateNote } = notesSlice.actions;
+export const { createNote, updateNote } = notesSlice.actions;
 export default notesSlice.reducer;
