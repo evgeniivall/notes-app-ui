@@ -102,7 +102,7 @@ const FolderDropdown = ({ selectedFolder, onChange }) => {
       })}
       placeholder="Select a folder..."
       className={styles.dropdown}
-      isClearable
+      isClearable={formattedSelectedFolder?.id !== '0'}
       value={formattedSelectedFolder}
       onChange={onChange}
       options={folderOptions}
