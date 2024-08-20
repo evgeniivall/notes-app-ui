@@ -28,15 +28,20 @@ const foldersSlice = createSlice({
   name: 'folders',
   initialState,
   reducers: {
-    createFolder(state, action) {
-      const newFolder = {
-        id: uuidv4(),
-        name: action.payload.name,
-        color: action.payload.color,
-        notesCnt: 0,
-      };
-      state.folders.unshift(newFolder);
-      saveFoldersToLocalStorage(state.folders);
+    createFolder: {
+      reducer: (state, action) => {
+        state.folders.unshift(action.payload);
+        saveFoldersToLocalStorage(state.folders);
+      },
+      prepare: (folderData) => {
+        const newFolder = {
+          id: uuidv4(),
+          name: folderData.name,
+          color: folderData.color,
+          notesCnt: 0,
+        };
+        return { payload: newFolder };
+      },
     },
     updateFolder(state, action) {
       const { id, updates } = action.payload;

@@ -71,12 +71,12 @@ function FoldersManagement() {
 
   const activeFolderIndices = getActiveFolderIndicesFromLocation();
 
-  const updateUrlParams = (newActiveFolderIndices) => {
+  const updateUrlParams = (newActiveFolderIndices, needMapping = true) => {
     const params = new URLSearchParams(location.search);
     if (newActiveFolderIndices.length > 0) {
-      const activeFolderIds = newActiveFolderIndices.map(
-        (index) => folders[index].id,
-      );
+      const activeFolderIds = needMapping
+        ? newActiveFolderIndices.map((index) => folders[index].id)
+        : newActiveFolderIndices;
       params.set('folders', activeFolderIds.join(','));
     } else {
       params.delete('folders');
@@ -95,8 +95,8 @@ function FoldersManagement() {
       name: generateNewFolderName(folders),
       color: FOLDER_COLOR_OPTIONS[0],
     };
-    dispatch(createFolder(newFolder));
-    updateUrlParams([0]);
+    const action = dispatch(createFolder(newFolder));
+    updateUrlParams([action.payload.id], false);
   };
 
   const handleDeleteFolder = (index) => {
