@@ -15,7 +15,6 @@ function NoteView() {
 
   const titleRef = useRef(title);
   const bodyRef = useRef(body);
-  const initialRender = useRef(true);
 
   // Sync refs with state
   useEffect(() => {
@@ -36,11 +35,7 @@ function NoteView() {
 
   // Save note on unmount or noteId change
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-      return;
-    }
-
+    /* TODO Avoid saving on first render */
     return () => {
       const saveNote = () => {
         const currentTitle = titleRef.current;
