@@ -12,6 +12,8 @@ import ArrowIcon from './arrow-right-s-line.svg?react';
 import MoreIcon from './more-fill.svg?react';
 import CloseIcon from './close-fill.svg?react';
 import CalendarIcon from './calendar-line.svg?react';
+import TagIcon from './hashtag.svg?react';
+import FolderIcon from './folder-2-fill.svg?react';
 
 export {
   MenuIcon,
@@ -28,4 +30,6 @@ export {
   MoreIcon,
   CloseIcon,
   CalendarIcon,
+  TagIcon,
+  FolderIcon,
 };
