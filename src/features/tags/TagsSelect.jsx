@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { components } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { useDispatch, useSelector } from 'react-redux';
-import { createTag, selectTags } from './tagsSlice';
+import { useSelector } from 'react-redux';
+import { selectTags } from './tagsSlice';
 import { TagIcon } from '../../icons/icons';
 import { getCSSVariable } from '../../utils/helpers';
 import styles from './TagsSelect.module.css';
@@ -82,17 +82,15 @@ const CustomControl = ({ children, ...props }) => (
 );
 
 const TagsSelect = ({ selectedTags, onChange }) => {
-  const dispatch = useDispatch();
   const allTags = useSelector(selectTags);
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    setOptions(allTags.map((tag) => ({ value: tag.id, label: tag.name })));
+    setOptions(allTags.map((tag) => ({ value: tag.name, label: tag.name })));
   }, [allTags]);
 
   const handleCreateTag = (inputValue) => {
-    const action = dispatch(createTag({ name: inputValue }));
-    onChange([...selectedTags.map((tag) => tag.id), action.payload.id]);
+    onChange([...selectedTags.map((tag) => tag.name), inputValue]);
   };
 
   const handleChange = (selected) => {
@@ -109,7 +107,7 @@ const TagsSelect = ({ selectedTags, onChange }) => {
         },
       })}
       className={styles.tagsSelect}
-      value={selectedTags.map((tag) => ({ value: tag.id, label: tag.name }))}
+      value={selectedTags.map((tag) => ({ value: tag.name, label: tag.name }))}
       isMulti
       isClearable={false}
       onChange={handleChange}

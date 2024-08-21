@@ -19,7 +19,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     const action = dispatch(
       createNote({
         folderId: '0',
-        tagIds: [],
+        tags: [],
         isStarred: false,
       }),
     );

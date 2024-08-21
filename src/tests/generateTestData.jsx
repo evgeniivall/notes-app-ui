@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTag, deleteTag } from '../features/tags/tagsSlice';
+import { deleteTag } from '../features/tags/tagsSlice';
 import { createFolder, deleteFolder } from '../features/folders/foldersSlice';
 import { createNote, deleteNote } from '../features/notes/notesSlice';
 import { useNavigate } from 'react-router-dom';
@@ -8,13 +8,12 @@ import testData from './testData';
 import store from '../store';
 
 const deleteExistingData = (dispatch, tags, folders, notes) => {
-  tags.forEach((tag) => dispatch(deleteTag({ id: tag.id })));
+  tags.forEach((tag) => dispatch(deleteTag({ name: tag.name })));
   folders.forEach((folder) => dispatch(deleteFolder({ id: folder.id })));
   notes.forEach((note) => dispatch(deleteNote({ id: note.id })));
 };
 
-const createTagsAndFolders = (dispatch, tagData, folderData) => {
-  tagData.forEach((tag) => dispatch(createTag({ name: tag.name })));
+const createFolders = (dispatch, tagData, folderData) => {
   folderData.forEach((folder) =>
     dispatch(
       createFolder({
@@ -26,27 +25,18 @@ const createTagsAndFolders = (dispatch, tagData, folderData) => {
 };
 
 const createNotes = (dispatch, noteData) => {
-  const updatedTags = store.getState().tags.tags;
   const updatedFolders = store.getState().folders.folders;
 
-  if (updatedTags.length > 0 && updatedFolders.length > 0) {
+  if (updatedFolders.length > 0) {
     noteData.forEach((note) => {
       const folder = note.folderName
         ? updatedFolders.find((f) => f.name === note.folderName)
-        : undefined;
-      const tagIds = note.tagNames
-        ? note.tagNames
-            .map((tagName) => {
-              const tag = updatedTags.find((t) => t.name === tagName);
-              return tag ? tag.id : null;
-            })
-            .filter((id) => id !== null)
         : undefined;
       dispatch(
         createNote({
           title: note.title,
           folderId: folder?.id,
-          tagIds,
+          tags: note.tags || [],
           isStarred: note.isStarred,
           lastUpdatedDate: note.lastUpdated,
         }),
@@ -70,7 +60,7 @@ const PopulateStoreWithTestData = () => {
     const { tags: tagData, folders: folderData, notes: noteData } = testData;
 
     deleteExistingData(dispatch, tags, folders, notes);
-    createTagsAndFolders(dispatch, tagData, folderData);
+    createFolders(dispatch, tagData, folderData);
     setTimeout(() => {
       createNotes(dispatch, noteData);
       navigate('/notes');

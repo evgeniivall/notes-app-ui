@@ -48,7 +48,7 @@ const TagsList = ({ tags, collapsable = true, parentContainerRef }) => {
     <div className={`${styles.tagsContainer} ${showAll ? styles.showAll : ''}`}>
       {visibleTags.map((tag, index) => (
         <Tag
-          key={tag.id || index}
+          key={index}
           name={tag.name}
           style={tag.style}
           icon={tag.icon}
