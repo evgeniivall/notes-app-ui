@@ -14,6 +14,7 @@ import CloseIcon from './close-fill.svg?react';
 import CalendarIcon from './calendar-line.svg?react';
 import TagIcon from './hashtag.svg?react';
 import FolderIcon from './folder-2-fill.svg?react';
+import TrashWiredIcon from './delete-bin-line.svg?react';
 
 export {
   MenuIcon,
@@ -32,4 +33,5 @@ export {
   CalendarIcon,
   TagIcon,
   FolderIcon,
+  TrashWiredIcon,
 };

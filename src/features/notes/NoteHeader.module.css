@@ -54,8 +54,8 @@
   transition: transform 0.3s;
 }
 
-.actions-icon {
-  transform: rotate(90deg);
+.delete-icon path {
+  fill: var(--grey-400);
 }
 
 .noteHeader .line-two {
