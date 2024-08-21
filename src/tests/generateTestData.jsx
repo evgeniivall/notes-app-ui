@@ -35,11 +35,13 @@ const createNotes = (dispatch, noteData) => {
         ? updatedFolders.find((f) => f.name === note.folderName)
         : undefined;
       const tagIds = note.tagNames
-        .map((tagName) => {
-          const tag = updatedTags.find((t) => t.name === tagName);
-          return tag ? tag.id : null;
-        })
-        .filter((id) => id !== null);
+        ? note.tagNames
+            .map((tagName) => {
+              const tag = updatedTags.find((t) => t.name === tagName);
+              return tag ? tag.id : null;
+            })
+            .filter((id) => id !== null)
+        : undefined;
       dispatch(
         createNote({
           title: note.title,

@@ -8,9 +8,8 @@ import { MenuIcon } from '../icons/icons';
 
 import styles from './MainLayout.module.css';
 import { Outlet } from 'react-router-dom';
+import { isMobileDevice } from '../utils/helpers';
 
-const SM_BREAKPOINT = 768;
-const isMobileDevice = () => window.innerWidth < SM_BREAKPOINT;
 function MainLayout() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(() =>
     isMobileDevice() ? false : true,
@@ -19,7 +18,7 @@ function MainLayout() {
 
   return (
     <div className={styles.container}>
-      <Sidebar isOpen={sidebarIsOpen} />
+      <Sidebar isOpen={sidebarIsOpen} setIsOpen={setSidebarIsOpen} />
       <div
         className={`${styles.mainContent} ${
           sidebarIsOpen ? styles.mainContentWithSidebar : ''

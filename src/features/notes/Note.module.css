@@ -20,8 +20,10 @@
   transition: width 0.3s;
 }
 
-.note:hover .folder-indicator {
-  width: 12px;
+@media (hover: hover) {
+  .note:hover .folder-indicator {
+    width: 12px;
+  }
 }
 
 .icon-container {

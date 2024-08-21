@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 import { v4 as uuidv4 } from 'uuid';
 import { getTagStyles } from './tagWidthCalcHelpers';
 import {
@@ -22,10 +23,15 @@ const tagsSlice = createSlice({
   name: 'tags',
   initialState,
   reducers: {
-    createTag: (state, action) => {
-      const newTag = { id: uuidv4(), name: action.payload.name };
-      state.tags.push(newTag);
-      saveDataToLocalStorage('tags', state.tags);
+    createTag: {
+      reducer: (state, action) => {
+        state.tags.push(action.payload);
+        saveDataToLocalStorage('tags', state.tags);
+      },
+      prepare: ({ name }) => {
+        const newTag = { id: uuidv4(), name };
+        return { payload: newTag };
+      },
     },
     deleteTag: (state, action) => {
       state.tags = state.tags.filter((tag) => tag.id !== action.payload.id);
@@ -46,6 +52,11 @@ const tagsSlice = createSlice({
 export const selectTags = (state) => state.tags.tags;
 export const selectTagById = (state, tagId) =>
   state.tags.tags.find((tag) => tag.id === tagId);
+export const selectTagsByIds = createSelector(
+  (state) => state.tags.tags,
+  (_, tagIds) => tagIds,
+  (tags, tagIds) => tagIds.map((id) => tags.find((tag) => tag.id === id)),
+);
 
 export const { createTag, deleteTag } = tagsSlice.actions;
 export default tagsSlice.reducer;

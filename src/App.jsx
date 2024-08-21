@@ -5,10 +5,10 @@ import {
 } from 'react-router-dom';
 import MainLayout from './pages/MainLayout';
 import NotesList from './features/notes/NotesList';
-import Note from './features/notes/Note';
 import PopulateStoreWithTestData from './tests/generateTestData';
 import useTagProcessing from './features/tags/useTagsProcessing';
 import ErrorPage from './pages/Errorpage';
+import NoteView from './features/notes/NoteView';
 
 const router = createBrowserRouter([
   {
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
         element: <NotesList />,
       },
       {
-        path: '/notes/:id',
-        element: <Note />,
+        path: '/notes/:noteId',
+        element: <NoteView />,
       },
       {
         path: '/testData',

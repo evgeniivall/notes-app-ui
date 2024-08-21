@@ -18,14 +18,22 @@
   gap: 8px;
 }
 
-.folder-item:hover,
+@media (hover: hover) {
+  .folder-item:hover {
+    background-color: var(--grey-700);
+    box-shadow: var(--box-shadow-small);
+  }
+}
+
 .folder-item.active {
   background-color: var(--grey-700);
   box-shadow: var(--box-shadow-small);
 }
 
-.folder-item:hover {
-  background-color: var(--grey-900);
+@media (hover: hover) {
+  .folder-item:hover {
+    background-color: var(--grey-900);
+  }
 }
 
 .folder-item.active {

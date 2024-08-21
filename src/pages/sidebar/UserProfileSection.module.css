@@ -5,8 +5,10 @@
   cursor: pointer;
 }
 
-.profileContainer:hover {
-  background-color: var(--grey-930);
+@media (hover: hover) {
+  .profileContainer:hover {
+    background-color: var(--grey-930);
+  }
 }
 
 .profileContainer:active {

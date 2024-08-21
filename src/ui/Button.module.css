@@ -13,6 +13,10 @@
   outline-color: var(--grey-100);
 }
 
+.medium {
+  padding: 4px;
+}
+
 /* Primary button */
 .button.primary {
   background-color: var(--grey-100);
@@ -25,12 +29,10 @@
   width: 24px;
 }
 
-.button.primary:hover {
-  box-shadow: var(--box-shadow-medium);
-}
-
-.button.primary:focus {
-  box-shadow: var(--box-shadow-medium);
+@media (hover: hover) {
+  .button.primary:hover {
+    box-shadow: var(--box-shadow-medium);
+  }
 }
 
 .button.primary:active {
@@ -64,14 +66,11 @@
   width: 24px;
 }
 
-.button.secondary:hover {
-  background-color: var(--grey-930);
-  box-shadow: var(--box-shadow-small);
-}
-
-.button.secondary:focus {
-  background-color: var(--grey-930);
-  box-shadow: var(--box-shadow-small);
+@media (hover: hover) {
+  .button.secondary:hover {
+    background-color: var(--grey-930);
+    box-shadow: var(--box-shadow-small);
+  }
 }
 
 .button.secondary:active {
@@ -85,8 +84,10 @@
   color: var(--grey-400);
 }
 
-.button.tertiary:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .button.tertiary:hover {
+    text-decoration: underline;
+  }
 }
 
 .button.tertiary:active {
@@ -109,8 +110,10 @@
   justify-content: center;
 }
 
-.button.wired:hover {
-  border: 1px solid var(--grey-100);
+@media (hover: hover) {
+  .button.wired:hover {
+    border: 1px solid var(--grey-100);
+  }
 }
 
 .button.wired:active {

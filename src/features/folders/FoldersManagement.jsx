@@ -43,6 +43,7 @@ const getFolderIndexes = (folderIds, folders) => {
 function FoldersManagement() {
   const folders = useSelector(selectFolders);
   const [isInEditMode, setIsInEditMode] = useState(false);
+  const [indexInEdit, setIndexInEdit] = useState(undefined);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -71,12 +72,12 @@ function FoldersManagement() {
 
   const activeFolderIndices = getActiveFolderIndicesFromLocation();
 
-  const updateUrlParams = (newActiveFolderIndices) => {
+  const updateUrlParams = (newActiveFolderIndices, needMapping = true) => {
     const params = new URLSearchParams(location.search);
     if (newActiveFolderIndices.length > 0) {
-      const activeFolderIds = newActiveFolderIndices.map(
-        (index) => folders[index].id,
-      );
+      const activeFolderIds = needMapping
+        ? newActiveFolderIndices.map((index) => folders[index].id)
+        : newActiveFolderIndices;
       params.set('folders', activeFolderIds.join(','));
     } else {
       params.delete('folders');
@@ -96,17 +97,18 @@ function FoldersManagement() {
       color: FOLDER_COLOR_OPTIONS[0],
     };
     dispatch(createFolder(newFolder));
-    updateUrlParams([0]);
+    setIndexInEdit(0);
   };
 
   const handleDeleteFolder = (index) => {
     dispatch(deleteFolder({ id: folders[index].id }));
-    updateUrlParams([]);
+    setIndexInEdit(undefined);
+    updateUrlParams(activeFolderIndices.filter((i) => i !== index));
   };
 
   const handleFolderClick = (index) => {
     if (isInEditMode) {
-      updateUrlParams([index]);
+      setIndexInEdit(index);
     } else {
       const newActiveFolderIndices = activeFolderIndices.includes(index)
         ? activeFolderIndices.filter((i) => i !== index)
@@ -121,8 +123,8 @@ function FoldersManagement() {
   );
 
   const handleToggleEditMode = () => {
-    if (!isInEditMode) {
-      updateUrlParams([]);
+    if (isInEditMode) {
+      setIndexInEdit(undefined);
     }
     setIsInEditMode((prevMode) => !prevMode);
   };
@@ -143,7 +145,11 @@ function FoldersManagement() {
             folder={folder}
             key={folder.id}
             inEditMode={isInEditMode}
-            isActive={activeFolderIndices.includes(index)}
+            isActive={
+              isInEditMode
+                ? index === indexInEdit
+                : activeFolderIndices.includes(index)
+            }
             onClick={() => handleFolderClick(index)}
             handleDelete={() => handleDeleteFolder(index)}
             handleUpdate={handleFolderUpdate}

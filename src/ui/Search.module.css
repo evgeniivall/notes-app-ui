@@ -8,9 +8,11 @@
   background: var(--grey-950);
 }
 
-.search:hover {
-  background-color: var(--grey-930);
-  box-shadow: var(--box-shadow-small);
+@media (hover: hover) {
+  .search:hover {
+    background-color: var(--grey-930);
+    box-shadow: var(--box-shadow-small);
+  }
 }
 
 .search:focus-within {
