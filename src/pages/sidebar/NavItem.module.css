@@ -30,9 +30,11 @@
   height: 24px;
 }
 
-.navItem:hover {
-  background-color: var(--grey-930);
-  box-shadow: var(--box-shadow-small);
+@media (hover: hover) {
+  .navItem:hover {
+    background-color: var(--grey-930);
+    box-shadow: var(--box-shadow-small);
+  }
 }
 
 .navItem.active {

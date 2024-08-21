@@ -17,8 +17,10 @@
   background-color: var(--grey-900);
 }
 
-.tag.solid:hover {
-  background-color: var(--grey-700);
+@media (hover: hover) {
+  .tag.solid:hover {
+    background-color: var(--grey-700);
+  }
 }
 
 .tag.tag.solid.selected {
