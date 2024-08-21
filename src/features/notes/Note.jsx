@@ -7,28 +7,28 @@ import { selectFolderById } from '../folders/foldersSlice';
 import { getDateTag, getStarTag } from '../tags/systemTags';
 import TagsList from '../tags/TagsList';
 import styles from './Note.module.css';
-import { selectTagsByIds } from '../tags/tagsSlice';
+import { selectTagsByNames } from '../tags/tagsSlice';
 
-const Note = ({ noteData, selectedTagIds }) => {
-  const { id, title, lastUpdatedDate, isStarred, tagIds, folderId } = noteData;
+const Note = ({ noteData, selectedTags }) => {
+  const { id, title, lastUpdatedDate, isStarred, tags, folderId } = noteData;
   const [contentWrapped, setContentWrapped] = useState(false);
   const navigate = useNavigate();
   const contentContainerRef = useRef();
   const folder = useSelector((state) => selectFolderById(state, folderId));
   const dateTag = useMemo(() => getDateTag(lastUpdatedDate), [lastUpdatedDate]);
-  const userTags = useSelector((state) => selectTagsByIds(state, tagIds));
+  const userTags = useSelector((state) => selectTagsByNames(state, tags));
 
-  const tags = useMemo(() => {
+  const tagsList = useMemo(() => {
     let baseTags = userTags.map((tag) => ({
       ...tag,
-      isSelected: selectedTagIds?.includes(tag.id.toString()),
+      isSelected: selectedTags?.includes(tag.name),
     }));
     if (isStarred) {
       baseTags.unshift(getStarTag());
     }
 
     return contentWrapped ? [dateTag, ...baseTags] : [...baseTags, dateTag];
-  }, [userTags, isStarred, contentWrapped, dateTag, selectedTagIds]);
+  }, [userTags, isStarred, contentWrapped, dateTag, selectedTags]);
 
   useEffect(() => {
     const contentContainer = contentContainerRef.current;
@@ -60,7 +60,7 @@ const Note = ({ noteData, selectedTagIds }) => {
       <div className={styles.content} ref={contentContainerRef}>
         <div className={styles.title}>{title}</div>
         <TagsList
-          tags={tags}
+          tags={tagsList}
           collapsable={contentWrapped}
           parentContainerRef={contentContainerRef}
         />

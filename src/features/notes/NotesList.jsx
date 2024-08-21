@@ -30,7 +30,7 @@ function NotesList() {
       /* Filter by tags */
       const hasTags =
         selectedTags.length === 0 ||
-        selectedTags.some((tag) => note.tagIds.includes(tag));
+        selectedTags.some((tag) => note.tags.includes(tag));
 
       /* Filter by search query */
       const matchesSearch =
@@ -90,7 +90,7 @@ function NotesList() {
               {group.notes.map((note) => (
                 <Note
                   noteData={note}
-                  selectedTagIds={selectedTags}
+                  selectedTags={selectedTags}
                   key={note.id}
                 />
               ))}

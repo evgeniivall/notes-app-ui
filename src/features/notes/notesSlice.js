@@ -24,7 +24,7 @@ const notesSlice = createSlice({
           id: uuidv4(),
           title: noteData.title,
           folderId: noteData.folderId || '0',
-          tagIds: noteData.tagIds || [],
+          tags: noteData.tags || [],
           isStarred: noteData.isStarred || false,
           lastUpdatedDate: noteData.lastUpdatedDate || Date.now(),
         };
@@ -91,5 +91,5 @@ export const selectNotes = (state) => state.notes.notes;
 export const selectNoteById = (state, noteId) =>
   state.notes.notes.find((note) => note.id === noteId);
 
-export const { createNote, updateNote } = notesSlice.actions;
+export const { createNote, updateNote, _deleteNote } = notesSlice.actions;
 export default notesSlice.reducer;

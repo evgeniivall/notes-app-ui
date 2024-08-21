@@ -6,9 +6,9 @@ import Tag from './Tag';
 import Button from '../../ui/Button';
 import styles from './TagsFilter.module.css';
 
-const mapIdsToIndices = (tagIds, tags) => {
-  const indices = tagIds
-    .map((id) => tags.findIndex((tag) => tag.id === id))
+const mapNamesToIndices = (tagNames, allTags) => {
+  const indices = tagNames
+    .map((name) => allTags.findIndex((tag) => tag.name === name))
     .filter((index) => index !== -1);
 
   return indices;
@@ -22,7 +22,7 @@ function TagsFilter() {
   const getSelectedTagIndicesFromLocation = useCallback(() => {
     const params = new URLSearchParams(location.search);
     const selectedTags = params.get('tags');
-    return selectedTags ? mapIdsToIndices(selectedTags.split(','), tags) : [];
+    return selectedTags ? mapNamesToIndices(selectedTags.split(','), tags) : [];
   }, [location.search, tags]);
 
   const selectedTagIndices = getSelectedTagIndicesFromLocation();
@@ -31,10 +31,10 @@ function TagsFilter() {
     (newSelectedTagIndices) => {
       const params = new URLSearchParams(location.search);
       if (newSelectedTagIndices.length > 0) {
-        const selectedTagIds = newSelectedTagIndices.map(
-          (index) => tags[index].id,
+        const selectedTags = newSelectedTagIndices.map(
+          (index) => tags[index].name,
         );
-        params.set('tags', selectedTagIds.join(','));
+        params.set('tags', selectedTags.join(','));
       } else {
         params.delete('tags');
       }
@@ -74,8 +74,7 @@ function TagsFilter() {
       <div className={styles.tagsList}>
         {tags.map((tag, index) => (
           <Tag
-            key={tag.id}
-            id={tag.id}
+            key={tag.name}
             name={tag.name}
             isSelected={selectedTagIndices.includes(index)}
             onClick={() => handleTagClick(index)}
