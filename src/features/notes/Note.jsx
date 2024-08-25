@@ -70,7 +70,7 @@ const Note = ({ noteData, selectedTags, isActive }) => {
         />
       </div>
       <div className={styles.content} ref={contentContainerRef}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{title || 'New note'}</div>
         <TagsList
           tags={tagsList}
           collapsable={contentWrapped}
