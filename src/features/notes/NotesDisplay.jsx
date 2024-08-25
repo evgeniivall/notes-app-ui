@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { selectNoteById } from './notesSlice';
 import NotesList from './NotesList';
 import NoteView from './NoteView';
 import styles from './NotesDisplay.module.css';
+import MessagePanel from '../../ui/MessagePanel';
+import Button from '../../ui/Button';
 
 function NotesDisplay() {
+  const navigate = useNavigate();
   const { noteId } = useParams();
   const [savedNote, setSavedNote] = useState(undefined);
 
@@ -33,6 +36,20 @@ function NotesDisplay() {
         className={`${styles.noteWrapper} ${!noteId ? styles.noteHidden : ''}`}
       >
         {note && <NoteView note={note} key={note.id} />}
+        {noteId && !note && (
+          <MessagePanel
+            title="Note not found"
+            subtitle="The note you are looking for might have been removed or does not exist."
+            imageUrl="/images/notes-empty-state.png"
+            button={
+              <Button
+                type="primary"
+                label="Go back to notes"
+                onClick={() => navigate('/notes')}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );

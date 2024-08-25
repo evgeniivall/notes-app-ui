@@ -38,6 +38,7 @@
     transform 500ms ease;
   overflow: hidden;
   @media (max-width: 768px) {
+    background-color: var(--grey-990);
     position: absolute;
     top: 0px;
     padding: 0px;
