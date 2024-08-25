@@ -1,13 +1,5 @@
-import { CalendarIcon, StarFilledIcon } from '../../icons/icons';
+import { CalendarIcon } from '../../icons/icons';
 import { formatDateToDayMonth } from '../../utils/helpers';
-
-export const getStarTag = () => {
-  return {
-    style: 'wired',
-    icon: <StarFilledIcon style={{ fill: '#fecf42' }} />,
-    width: 40,
-  };
-};
 
 export const getDateTag = (date) => {
   return {

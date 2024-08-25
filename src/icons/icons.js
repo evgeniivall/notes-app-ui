@@ -3,6 +3,7 @@ import SearchIcon from './search-line.svg?react';
 import NotesIcon from './todo-fill.svg?react';
 import TrashIcon from './delete-bin-fill.svg?react';
 import StarFilledIcon from './star-fill.svg?react';
+import StarOutlineIcon from './star-line.svg?react';
 import AddNoteIcon from './sticky-note-add-fill.svg?react';
 import UserIcon from './user-3-fill.svg?react';
 import CheckIcon from './check-fill.svg?react';
@@ -34,4 +35,5 @@ export {
   TagIcon,
   FolderIcon,
   TrashWiredIcon,
+  StarOutlineIcon,
 };

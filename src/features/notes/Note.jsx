@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getCSSVariable } from '../../utils/helpers';
 import { ArrowIcon } from '../../icons/icons';
 import { selectFolderById } from '../folders/foldersSlice';
-import { getDateTag, getStarTag } from '../tags/systemTags';
+import { getDateTag } from '../tags/systemTags';
 import TagsList from '../tags/TagsList';
+import Star from '../../ui/Star';
 import styles from './Note.module.css';
 import { selectTagsByNames } from '../tags/tagsSlice';
 
@@ -25,12 +26,9 @@ const Note = ({ noteData, selectedTags, isActive }) => {
       ...tag,
       isSelected: selectedTags?.includes(tag.name),
     }));
-    if (isStarred) {
-      baseTags.unshift(getStarTag());
-    }
 
     return contentWrapped ? [dateTag, ...baseTags] : [...baseTags, dateTag];
-  }, [userTags, isStarred, contentWrapped, dateTag, selectedTags]);
+  }, [userTags, contentWrapped, dateTag, selectedTags]);
 
   useEffect(() => {
     const contentContainer = contentContainerRef.current;
@@ -70,7 +68,10 @@ const Note = ({ noteData, selectedTags, isActive }) => {
         />
       </div>
       <div className={styles.content} ref={contentContainerRef}>
-        <div className={styles.title}>{title || 'New note'}</div>
+        <div className={styles.titleContainer}>
+          {isStarred && <Star starred={true} />}
+          <div className={styles.title}>{title || 'New note'}</div>
+        </div>
         <TagsList
           tags={tagsList}
           collapsable={contentWrapped}

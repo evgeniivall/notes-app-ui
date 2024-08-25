@@ -1,0 +1,26 @@
+.starToggle {
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+  background-color: var(--grey-930);
+  border: none;
+}
+
+@media (hover: hover) {
+  .starToggle:hover {
+    background-color: var(--grey-900);
+  }
+}
+
+.starIcon {
+  height: 20px;
+  width: 20px;
+}
+
+.starToggle svg {
+  fill: var(--grey-100);
+}
+
+.starToggle.starred svg {
+  fill: var(--yellow);
+}

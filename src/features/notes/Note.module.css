@@ -65,3 +65,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.titleContainer {
+  max-width: 100%;
+  display: flex;
+  gap: 4px;
+}

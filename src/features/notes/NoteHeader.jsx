@@ -9,6 +9,7 @@ import Button from '../../ui/Button';
 import styles from './NoteHeader.module.css';
 import FolderDropdown from '../folders/FolderDropdown';
 import TagsSelect from '../tags/TagsSelect';
+import StarToggle from '../../ui/StarToggle';
 import { selectTagsByNames } from '../tags/tagsSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -58,6 +59,17 @@ const NoteHeader = ({ note }) => {
         <div
           className={`${styles.lineTwo} ${!isCollapsed ? styles.expanded : ''}`}
         >
+          <StarToggle
+            starred={note.isStarred}
+            onChange={() =>
+              dispatch(
+                updateNote({
+                  id: note.id,
+                  updates: { isStarred: !note.isStarred },
+                }),
+              )
+            }
+          />
           <FolderDropdown
             selectedFolder={folder}
             onChange={(value) => {
