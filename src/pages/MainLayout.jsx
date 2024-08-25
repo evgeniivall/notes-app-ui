@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import Sidebar from './sidebar/Sidebar';
-import Button from '../ui/Button';
-import Header from '../ui/Header';
-import Search from '../ui/Search';
 import Overlay from '../ui/Overlay';
-import { MenuIcon } from '../icons/icons';
-
-import styles from './MainLayout.module.css';
 import { Outlet } from 'react-router-dom';
 import { isMobileDevice } from '../utils/helpers';
+import styles from './MainLayout.module.css';
+import Header from '../ui/Header';
+import Button from '../ui/Button';
+import Search from '../ui/Search';
+import { MenuIcon } from '../icons/icons';
 
 function MainLayout() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(() =>
@@ -35,7 +34,7 @@ function MainLayout() {
           />
           <Search />
         </Header>
-        <Outlet />
+        <Outlet setSidebarIsOpen={setSidebarIsOpen} />
       </div>
     </div>
   );

@@ -4,11 +4,10 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import MainLayout from './pages/MainLayout';
-import NotesList from './features/notes/NotesList';
 import PopulateStoreWithTestData from './tests/generateTestData';
 import useTagProcessing from './features/tags/useTagsProcessing';
 import ErrorPage from './pages/Errorpage';
-import NoteView from './features/notes/NoteView';
+import NotesDisplay from './features/notes/NotesDisplay';
 
 const router = createBrowserRouter([
   {
@@ -22,11 +21,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/notes',
-        element: <NotesList />,
+        element: <NotesDisplay />,
       },
       {
         path: '/notes/:noteId',
-        element: <NoteView />,
+        element: <NotesDisplay />,
       },
       {
         path: '/testData',
