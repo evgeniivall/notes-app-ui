@@ -1,20 +1,27 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowIcon } from '../../icons/icons';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ArrowIcon, CloseIcon } from '../../icons/icons';
 import { isMobileDevice } from '../../utils/helpers';
 import Button from '../../ui/Button';
 import styles from './BreadCrumbs.module.css';
 
 const BreadCrumbs = ({ folder, noteTitle }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const title = noteTitle || 'New note';
 
   const renderBackButton = () => (
     <Button
-      icon={<ArrowIcon style={{ transform: 'rotate(180deg)' }} />}
+      icon={<CloseIcon />}
       type="secondary"
       size="medium"
-      onClick={() => navigate(-1)}
+      onClick={() => {
+        navigate({
+          pathname: '/notes',
+          search: searchParams.toString(),
+        });
+      }}
     />
   );
 

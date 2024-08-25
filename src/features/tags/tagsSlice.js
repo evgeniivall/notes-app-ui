@@ -129,7 +129,9 @@ export const selectTagsByNames = createSelector(
   (state) => state.tags.tags,
   (_, tagNames) => tagNames,
   (tags, tagNames) =>
-    tagNames.map((name) => tags.find((tag) => tag.name === name)),
+    tagNames
+      .map((name) => tags.find((tag) => tag.name === name))
+      .filter((tag) => tag !== undefined),
 );
 
 export const { deleteTag } = tagsSlice.actions;

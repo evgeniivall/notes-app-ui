@@ -9,7 +9,7 @@ import styles from './NotesList.module.css';
 import Button from '../../ui/Button';
 import MessagePanel from '../../ui/MessagePanel';
 
-function NotesList() {
+function NotesList({ activeNoteId }) {
   const notes = useSelector(selectNotes);
   const location = useLocation();
   const navigate = useNavigate();
@@ -82,14 +82,15 @@ function NotesList() {
 
   const groupedNotes = groupNotesByDate(filteredNotes);
   return (
-    <div className={styles.notesList}>
+    <div className={`${styles.notesList} `}>
       {groupedNotes.map(
-        (group) =>
+        (group, index) =>
           group.notes.length > 0 && (
-            <NotesGroup key={group.name} name={group.name}>
+            <NotesGroup key={group.name} name={index !== 0 && group.name}>
               {group.notes.map((note) => (
                 <Note
                   noteData={note}
+                  isActive={note.id === activeNoteId}
                   selectedTags={selectedTags}
                   key={note.id}
                 />

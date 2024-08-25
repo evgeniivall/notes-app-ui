@@ -8,6 +8,10 @@
   box-shadow: var(--box-shadow-small);
 }
 
+.note.active {
+  background: var(--grey-800);
+}
+
 .folder-indicator-container {
   width: 12px;
   height: 100%;
@@ -24,6 +28,10 @@
   .note:hover .folder-indicator {
     width: 12px;
   }
+}
+
+.note.active .folder-indicator {
+  width: 12px;
 }
 
 .icon-container {

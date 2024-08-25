@@ -1,20 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteNote, updateNote } from './notesSlice';
 import NoteHeader from './NoteHeader';
-import { deleteNote, selectNoteById, updateNote } from './notesSlice';
 import styles from './NoteView.module.css';
 
-function NoteView() {
+function NoteView({ note }) {
   const dispatch = useDispatch();
-  const { noteId } = useParams();
-  const note = useSelector((state) => selectNoteById(state, noteId));
-
   const [title, setTitle] = useState(note.title || '');
   const [body, setBody] = useState(note.body || note.title || '');
 
   const titleRef = useRef(title);
   const bodyRef = useRef(body);
+  const isUpdated = useRef(false);
+
   // eslint-disable-next-line no-undef
   const isFirstRender = useRef(process.env.NODE_ENV === 'development');
 
@@ -33,6 +31,7 @@ function NoteView() {
     const updatedBody = e.target.value;
     setBody(updatedBody);
     setTitle(updatedBody.substring(0, 128).trim().split('\n')[0]);
+    isUpdated.current = true;
   };
 
   // Save note on unmount or noteId change
@@ -49,30 +48,33 @@ function NoteView() {
         const currentBody = bodyRef.current;
 
         if (!currentTitle || !currentBody) {
-          dispatch(deleteNote({ id: noteId }));
-        } else {
+          dispatch(deleteNote({ id: note.id }));
+        } else if (isUpdated.current) {
           dispatch(
             updateNote({
-              id: noteId,
+              id: note.id,
               updates: { title: currentTitle, body: currentBody },
             }),
           );
         }
+        isUpdated.current = false;
       };
 
       saveNote();
     };
-  }, [dispatch, noteId]);
+  }, [dispatch, note]);
 
   return (
     <div className={styles.noteView}>
       <NoteHeader note={{ ...note, title }} />
-      <textarea
-        className={styles.noteBody}
-        value={body}
-        onChange={handleBodyChange}
-        placeholder="Start writing your note..."
-      />
+      <div className={styles.noteBodyWrapper}>
+        <textarea
+          className={styles.noteBody}
+          value={body}
+          onChange={handleBodyChange}
+          placeholder="Start writing your note..."
+        />
+      </div>
     </div>
   );
 }

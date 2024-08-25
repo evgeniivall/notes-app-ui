@@ -32,5 +32,5 @@ export function groupNotesByDate(notes) {
     { name: 'This Month', notes: groups.thisMonth },
     { name: 'This Year', notes: groups.thisYear },
     { name: 'Older', notes: groups.older },
-  ];
+  ].filter((group) => group.notes && group.notes.length > 0);
 }
