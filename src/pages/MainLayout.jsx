@@ -34,7 +34,7 @@ function MainLayout() {
           />
           <Search />
         </Header>
-        <Outlet setSidebarIsOpen={setSidebarIsOpen} />
+        <Outlet />
       </div>
     </div>
   );
