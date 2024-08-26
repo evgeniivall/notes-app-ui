@@ -10,7 +10,7 @@
   display: flex;
   flex-grow: 1;
   width: 320px;
-  transition: width 500ms ease;
+  transition: width 500ms ease-in-out;
 }
 
 .notesListWrapper.noteHidden {
@@ -34,8 +34,8 @@
   padding: 16px;
   padding-left: 0px;
   transition:
-    width 500ms ease,
-    transform 500ms ease;
+    width 500ms ease-in-out,
+    transform 500ms ease-in-out;
   overflow: hidden;
   @media (max-width: 768px) {
     background-color: var(--grey-990);
