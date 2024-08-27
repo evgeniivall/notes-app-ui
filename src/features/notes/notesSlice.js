@@ -31,6 +31,7 @@ const notesSlice = createSlice({
           tags: noteData.tags || [],
           isStarred: noteData.isStarred || false,
           lastUpdatedDate: noteData.lastUpdatedDate || Date.now(),
+          body: noteData.body,
         };
         return { payload: newNote };
       },
