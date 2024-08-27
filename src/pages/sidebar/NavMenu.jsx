@@ -14,7 +14,7 @@ function NavMenu() {
       />
       <NavItem
         icon={<TrashIcon />}
-        label="Trash"
+        label="Archive"
         to="/notes"
         query={{ key: 'filter', value: 'deleted' }}
       />

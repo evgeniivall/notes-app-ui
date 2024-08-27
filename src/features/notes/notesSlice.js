@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { deleteFolder, updateFolderCounter } from '../folders/foldersSlice';
 import {
@@ -27,6 +31,7 @@ const notesSlice = createSlice({
           tags: noteData.tags || [],
           isStarred: noteData.isStarred || false,
           lastUpdatedDate: noteData.lastUpdatedDate || Date.now(),
+          body: noteData.body,
         };
         return { payload: newNote };
       },
@@ -65,11 +70,18 @@ const notesSlice = createSlice({
 
 export const deleteNote = createAsyncThunk(
   'notes/deleteNote',
-  async ({ id }, { dispatch, getState }) => {
+  async ({ id, type = 'hard' }, { dispatch, getState }) => {
     const oldNote = getState().notes.notes.find((note) => note.id === id);
-    const oldFolderId = oldNote.folderId;
-    dispatch(notesSlice.actions._deleteNote({ id }));
-    dispatch(updateFolderCounter({ folderId: oldFolderId, change: -1 }));
+    const oldFolderId = oldNote.folderId || '0';
+    if (type === 'hard') dispatch(notesSlice.actions._deleteNote({ id }));
+    else if (type === 'soft') {
+      dispatch(
+        notesSlice.actions.updateNote({ id, updates: { isDeleted: true } }),
+      );
+    }
+    /* If isDeleter is true, that means that folder counter was already updated during previous soft delete */
+    if (!oldNote.isDeleted)
+      dispatch(updateFolderCounter({ folderId: oldFolderId, change: -1 }));
   },
 );
 
@@ -87,7 +99,14 @@ export const updateNoteFolder = createAsyncThunk(
   },
 );
 
-export const selectNotes = (state) => state.notes.notes;
+export const selectNotes = createSelector(
+  (state) => state.notes.notes,
+  (notes) => notes.filter((note) => !note.isDeleted),
+);
+export const selectDeletedNotes = createSelector(
+  (state) => state.notes.notes,
+  (notes) => notes.filter((note) => note.isDeleted),
+);
 export const selectNoteById = (state, noteId) =>
   state.notes.notes.find((note) => note.id === noteId);
 
