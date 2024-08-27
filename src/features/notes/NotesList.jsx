@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectNotes } from './notesSlice';
 import { groupNotesByDate } from './notesGrouping';
-import Note from './Note';
+import NoteItem from './NoteItem';
 import NotesGroup from './NotesGroup';
 import styles from './NotesList.module.css';
 import Button from '../../ui/Button';
@@ -88,7 +88,7 @@ function NotesList({ activeNoteId }) {
           group.notes.length > 0 && (
             <NotesGroup key={group.name} name={index !== 0 && group.name}>
               {group.notes.map((note) => (
-                <Note
+                <NoteItem
                   noteData={note}
                   isActive={note.id === activeNoteId}
                   selectedTags={selectedTags}

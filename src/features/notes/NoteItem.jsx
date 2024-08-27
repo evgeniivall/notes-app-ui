@@ -7,10 +7,10 @@ import { selectFolderById } from '../folders/foldersSlice';
 import { getDateTag } from '../tags/systemTags';
 import TagsList from '../tags/TagsList';
 import Star from '../../ui/Star';
-import styles from './Note.module.css';
 import { selectTagsByNames } from '../tags/tagsSlice';
+import styles from './NoteItem.module.css';
 
-const Note = ({ noteData, selectedTags, isActive }) => {
+const NoteItem = ({ noteData, selectedTags, isActive }) => {
   const { id, title, lastUpdatedDate, isStarred, tags, folderId } = noteData;
   const [contentWrapped, setContentWrapped] = useState(false);
   const navigate = useNavigate();
@@ -85,4 +85,4 @@ const Note = ({ noteData, selectedTags, isActive }) => {
   );
 };
 
-export default Note;
+export default NoteItem;
