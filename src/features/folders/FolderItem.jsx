@@ -44,7 +44,7 @@ function FolderItem({
 
   /* Apply name updates when user exited edit mode or selected another folder */
   useEffect(() => {
-    if (!inEditMode || (!isActive && tempFolderName !== name)) {
+    if ((!inEditMode || !isActive) && tempFolderName !== name) {
       if (nameValidationError === '') {
         handleUpdate(folder.id, { name: normalizeWhitespace(tempFolderName) });
         setTempFolderName((name) => normalizeWhitespace(name));
