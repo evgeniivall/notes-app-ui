@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
-import { selectFolders } from './foldersSlice';
+import { selectFolderById, selectFolders } from './foldersSlice';
 import { getCSSVariable } from '../../utils/helpers';
 import styles from './FolderDropdown.module.css';
 
@@ -75,12 +75,14 @@ const getCustomStyles = () => ({
 
 const FolderDropdown = ({ selectedFolder, onChange }) => {
   const folders = useSelector(selectFolders);
+  const defaultFolder = useSelector((state) => selectFolderById(state, '0'));
   const customStyles = getCustomStyles();
+  const folder = selectedFolder || defaultFolder;
 
   const formattedSelectedFolder = {
-    label: selectedFolder.id === '0' ? 'Pick a folder...' : selectedFolder.name,
-    value: selectedFolder.id,
-    ...selectedFolder,
+    label: folder.id === '0' ? 'Pick a folder...' : folder.name,
+    value: folder.id,
+    ...folder,
   };
 
   const folderOptions = folders
