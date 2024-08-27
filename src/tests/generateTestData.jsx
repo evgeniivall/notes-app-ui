@@ -10,7 +10,7 @@ import store from '../store';
 const deleteExistingData = (dispatch, tags, folders, notes) => {
   tags.forEach((tag) => dispatch(deleteTag({ name: tag.name })));
   folders.forEach((folder) => dispatch(deleteFolder({ id: folder.id })));
-  notes.forEach((note) => dispatch(deleteNote({ id: note.id })));
+  notes.forEach((note) => dispatch(deleteNote({ id: note.id, type: 'hard' })));
 };
 
 const createFolders = (dispatch, tagData, folderData) => {

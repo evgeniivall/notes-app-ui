@@ -12,6 +12,7 @@ import {
 } from './foldersSlice';
 import { FOLDER_COLOR_OPTIONS } from '../../constants/constants';
 import styles from './FoldersManagement.module.css';
+import { selectNotes } from '../notes/notesSlice';
 
 const folderNameIsExist = (name, folders) => {
   return folders.some((folder) => folder.name === name);
@@ -47,7 +48,7 @@ function FoldersManagement() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const notes = useSelector((state) => state.notes.notes);
+  const notes = useSelector(selectNotes);
 
   useEffect(() => {
     const unorganizedNotesCount = notes.reduce((cnt, note) => {

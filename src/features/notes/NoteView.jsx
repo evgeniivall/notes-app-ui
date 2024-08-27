@@ -48,7 +48,7 @@ function NoteView({ note }) {
         const currentBody = bodyRef.current;
 
         if (!currentTitle || !currentBody) {
-          dispatch(deleteNote({ id: note.id }));
+          dispatch(deleteNote({ id: note.id, type: 'hard' }));
         } else if (isUpdated.current) {
           dispatch(
             updateNote({

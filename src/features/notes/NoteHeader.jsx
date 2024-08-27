@@ -49,7 +49,7 @@ const NoteHeader = ({ note }) => {
               type="secondary"
               size="medium"
               onClick={() => {
-                dispatch(deleteNote({ id: note.id }));
+                dispatch(deleteNote({ id: note.id, type: 'soft' }));
                 /* TODO Keep query params */
                 navigate('/notes');
               }}
