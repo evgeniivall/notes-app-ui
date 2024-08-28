@@ -1,0 +1,34 @@
+.color-box-container,
+.color-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-box-container {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+@media (hover: hover) {
+  .color-box-container:hover {
+    border: 1px solid;
+  }
+}
+
+.color-box-container.active {
+  border: 1px solid;
+}
+
+.color-box svg {
+  fill: var(--grey-100);
+  width: 16px;
+  height: 16px;
+}

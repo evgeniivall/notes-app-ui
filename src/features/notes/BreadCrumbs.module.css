@@ -1,0 +1,38 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+.breadcrumbs .icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.breadcrumbs .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--grey-400);
+}
+
+.breadcrumbs .crumb {
+  color: var(--grey-100);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 32px;
+}
+
+.breadcrumbs .link-crumb {
+  color: var(--grey-400);
+  line-height: 32px;
+  white-space: nowrap;
+}
+
+.breadcrumbs .link-crumb:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,40 @@
+.tag {
+  display: flex;
+  padding: 4px 8px;
+  color: var(--grey-100);
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  gap: 4px;
+  align-items: center;
+}
+
+.tag.solid {
+  background-color: var(--grey-900);
+}
+
+@media (hover: hover) {
+  .tag.solid:hover {
+    background-color: var(--grey-700);
+  }
+}
+
+.tag.tag.solid.selected {
+  background-color: var(--grey-700);
+  border: 1px solid var(--grey-100);
+}
+
+.tag.wired {
+  background-color: transparent;
+  border: 1px solid var(--grey-700);
+}
+
+.tag svg {
+  fill: var(--grey-100);
+  height: 16px;
+  width: 16px;
+}

@@ -1,0 +1,12 @@
+.star {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 24px;
+}
+
+.star svg {
+  height: 16px;
+  width: 16px;
+  fill: var(--yellow);
+}

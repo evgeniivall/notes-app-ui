@@ -1,0 +1,29 @@
+.folders-management {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.folders-management .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.folders-management .title {
+  display: flex;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--grey-100);
+  flex-grow: 1;
+}
+
+.folders-management .folders-list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  gap: 4px;
+}

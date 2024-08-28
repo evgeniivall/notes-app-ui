@@ -1,0 +1,43 @@
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  gap: 8px;
+  outline-color: var(--grey-100);
+}
+
+.navItem .icon {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: flex-start;
+}
+
+.navItem .label {
+  color: var(--grey-100);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.navItem svg {
+  fill: var(--grey-100);
+  width: 24px;
+  height: 24px;
+}
+
+@media (hover: hover) {
+  .navItem:hover {
+    background-color: var(--grey-930);
+    box-shadow: var(--box-shadow-small);
+  }
+}
+
+.navItem.active {
+  background-color: var(--grey-700);
+  box-shadow: var(--box-shadow-small);
+}

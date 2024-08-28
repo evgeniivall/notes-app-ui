@@ -1,0 +1,73 @@
+.note {
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+  gap: 4px;
+  border-radius: 4px;
+  background: var(--grey-950);
+  box-shadow: var(--box-shadow-small);
+}
+
+.note.active {
+  background: var(--grey-800);
+}
+
+.folder-indicator-container {
+  width: 12px;
+  height: 100%;
+}
+
+.folder-indicator {
+  width: 8px;
+  height: 100%;
+  border-radius: 4px 0px 0px 4px;
+  transition: width 0.3s;
+}
+
+@media (hover: hover) {
+  .note:hover .folder-indicator {
+    width: 12px;
+  }
+}
+
+.note.active .folder-indicator {
+  width: 12px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  color: var(--grey-400);
+}
+
+.content {
+  display: flex;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  width: calc(100% - 32px);
+}
+
+.title {
+  color: var(--grey-100);
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.titleContainer {
+  max-width: 100%;
+  display: flex;
+  gap: 8px;
+}

@@ -1,0 +1,7 @@
+.color-picker {
+  display: flex;
+  padding: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+}

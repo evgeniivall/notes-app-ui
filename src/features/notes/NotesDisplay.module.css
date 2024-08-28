@@ -1,0 +1,46 @@
+.notesWrapper {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.notesListWrapper {
+  display: flex;
+  flex-grow: 1;
+  width: 320px;
+  transition: width 500ms ease-in-out;
+}
+
+.notesListWrapper.noteHidden {
+  width: 100%;
+}
+
+.noteWrapper.noteHidden {
+  transform: translateX(100%);
+  width: 0px;
+  padding-right: 0px;
+  @media (max-width: 768px) {
+    padding: 0px;
+    width: 100%;
+  }
+}
+
+.noteWrapper {
+  transform: translateX(0);
+  height: 100%;
+  width: 100%;
+  padding: 16px;
+  padding-left: 0px;
+  transition:
+    width 500ms ease-in-out,
+    transform 500ms ease-in-out;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    background-color: var(--grey-990);
+    position: absolute;
+    top: 0px;
+    padding: 0px;
+  }
+}

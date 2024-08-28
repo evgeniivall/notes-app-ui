@@ -1,0 +1,10 @@
+.header {
+  height: fit-content;
+  display: flex;
+  padding: 16px 16px 16px 16px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--grey-990);
+  box-shadow: var(--box-shadow-small);
+}

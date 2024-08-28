@@ -1,17 +1,64 @@
 :root {
   --grey-990: #1e2125;
-  --grey-950: #030712;
+  --grey-950: #282b30;
   --grey-930: #30343a;
-  --grey-900: #111827;
-  --grey-800: #1f2937;
-  --grey-700: #374151;
+  --grey-900: #383c41;
+  --grey-800: #3f444b;
+  --grey-700: #484e56;
   --grey-400: #9ca3af;
   --grey-300: #d1d5db;
   --grey-200: #e5e7eb;
   --grey-100: #f3f4f6;
   --grey-50: #f9fafb;
+  --box-shadow-small: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  --box-shadow-medium: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+  --side-bar-width: 320px;
+
+  --red: #fd6364;
+  --magenta: #d46cee;
+  --purple: #8c68f6;
+  --blue: #536ff6;
+  --cyan: #5ed3e3;
+  --green: #83e591;
+  --yellow: #fecf42;
+  --grey: #9ca3af;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   background-color: var(--grey-990);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 4px; /* Width of the scrollbar */
+  height: 4px; /* Height of the scrollbar for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--grey-900);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--grey-400);
 }

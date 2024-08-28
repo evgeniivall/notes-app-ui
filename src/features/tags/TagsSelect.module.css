@@ -1,0 +1,29 @@
+.tags-select {
+  display: flex;
+  flex: 1 2 auto;
+  align-items: center;
+  max-width: 100%;
+  background: var(--grey-950);
+  border-radius: 4px;
+  min-width: 200px;
+}
+
+.tags-select .control {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.tags-icon {
+  margin-left: 8px;
+  width: 16px;
+  height: 16px;
+  fill: var(--grey-100);
+}
+
+/* TODO keep for options menu */
+.tags-select ::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
