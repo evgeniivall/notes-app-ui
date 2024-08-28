@@ -4,7 +4,9 @@
 
 **Notes App** (working title) is a note-taking application developed as a practical project to sharpen full-stack development skills. It leverages modern web technologies and follows a microservices architecture to ensure modularity and scalability. While the current version includes core note-taking features, future phases aim to introduce AI-powered enhancements to improve note organization and user experience.
 
-You can try the app via [this link](#).
+You can try the app via [this link](https://main.d32f0o7twntssy.amplifyapp.com/).
+
+I’d also love to hear your feedback! Please share your thoughts using [this feedback form](https://easyretro.io/publicboard/L4GzSrtV29OyrKGaCrBKZ0GBgiJ3/2065fb31-fedc-4093-8ad8-a43f601cf6be).
 
 ![App screenshot](https://github.com/evgeniivall/notes-app-ui/blob/development/app-screenshot.png)
 
