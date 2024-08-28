@@ -13,7 +13,7 @@ const deleteExistingData = (dispatch, tags, folders, notes) => {
   notes.forEach((note) => dispatch(deleteNote({ id: note.id, type: 'hard' })));
 };
 
-const createFolders = (dispatch, tagData, folderData) => {
+const createFolders = (dispatch, folderData) => {
   folderData.forEach((folder) =>
     dispatch(
       createFolder({
@@ -39,6 +39,7 @@ const createNotes = (dispatch, noteData) => {
           tags: note.tags || [],
           isStarred: note.isStarred,
           lastUpdatedDate: note.lastUpdated,
+          body: note.body,
         }),
       );
     });
@@ -57,10 +58,10 @@ const PopulateStoreWithTestData = () => {
     if (exec.current) return;
     exec.current = true;
 
-    const { tags: tagData, folders: folderData, notes: noteData } = testData;
+    const { folders: folderData, notes: noteData } = testData;
 
     deleteExistingData(dispatch, tags, folders, notes);
-    createFolders(dispatch, tagData, folderData);
+    createFolders(dispatch, folderData);
     setTimeout(() => {
       createNotes(dispatch, noteData);
       navigate('/notes');
