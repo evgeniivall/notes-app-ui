@@ -17,11 +17,6 @@
   border-radius: 2px;
 }
 
-@media (hover: hover) {
-  .color-box-container:hover {
-    border: 1px solid;
-  }
-}
 
 .color-box-container.active {
   border: 1px solid;
@@ -32,3 +27,10 @@
   width: 16px;
   height: 16px;
 }
+
+@media (hover: hover) {
+  .color-box-container:hover {
+    border: 1px solid;
+  }
+} 
+//media queries should be at the end of the file
