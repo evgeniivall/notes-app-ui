@@ -8,7 +8,7 @@ You can try the app via [this link](https://main.d32f0o7twntssy.amplifyapp.com/)
 
 I’d also love to hear your feedback! Please share your thoughts using [this feedback form](https://easyretro.io/publicboard/L4GzSrtV29OyrKGaCrBKZ0GBgiJ3/2065fb31-fedc-4093-8ad8-a43f601cf6be).
 
-![App screenshot](https://github.com/evgeniivall/notes-app-ui/blob/development/app-screenshot.png)
+![App screenshot](https://github.com/evgeniivall/notes-app-ui/blob/development/readme_images/app-screenshot.png)
 
 ### Current State
 The project is currently in its early stages, featuring basic functionality without backend integration. All data is stored locally in the browser. Check the roadmap section to see upcoming features.
@@ -37,6 +37,11 @@ The project is currently in its early stages, featuring basic functionality with
 - **Containerization**: Docker
 - **Build Tool**: Vite
 
+### Architecture
+#### C4 Container Diagram
+![C4 Container Diagram](https://github.com/evgeniivall/notes-app-ui/blob/development/readme_images/notes-app-C4-container-diagram.png)
+#### Infrastructure Diagram
+![Infrastructure Diagram](https://github.com/evgeniivall/notes-app-ui/blob/development/readme_images/notes-app-infrastructure.png)
 
 ## Getting Started
 ### Prerequisites
