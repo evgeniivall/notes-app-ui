@@ -4,7 +4,7 @@
 
 React SPA for note-taking with folder/tag organization. Client-side only (no backend yet). All data persists to browser localStorage.
 
-**Stack:** React 18, Redux Toolkit, React Router v6, Vite, CSS Modules
+**Stack:** React 18, Redux Toolkit, React Router v6, Vite, TypeScript, CSS Modules
 
 ---
 
@@ -13,10 +13,13 @@ React SPA for note-taking with folder/tag organization. Client-side only (no bac
 ```bash
 npm run dev       # Start dev server with HMR
 npm run build     # Production build → dist/
+npm run tsc       # Type-check only (no emit)
 npm run preview   # Preview production build
 npm run prod      # Build + preview combined
 npm run lint      # ESLint (zero warnings policy — must pass clean)
 ```
+
+**Before every commit:** run `npm run tsc && npm run build` — both must pass.
 
 **Docker:**
 ```bash
@@ -31,19 +34,31 @@ docker run -p 8080:80 notes-app
 ```
 src/
 ├── features/          # Feature modules (domain-driven)
-│   ├── notes/         # notesSlice.js + note components
-│   ├── folders/       # foldersSlice.js + folder components
-│   └── tags/          # tagsSlice.js + tag components
+│   ├── notes/         # notesSlice.ts + note components
+│   ├── folders/       # foldersSlice.ts + folder components
+│   └── tags/          # tagsSlice.ts + tag components
 ├── pages/             # Page/layout components + sidebar/
 ├── ui/                # Reusable UI components (Button, Input, Search, …)
 ├── icons/             # SVG icons (imported as React components via vite-plugin-svgr)
 ├── utils/             # localStorage helpers, date formatting, CSS variable helpers
 ├── constants/         # App-wide constants
 ├── tests/             # Test data generators (no test framework)
-├── App.jsx            # Root component with router setup
-├── store.js           # Redux store configuration
+├── types.ts           # Core data model interfaces (Note, Folder, Tag, FolderColor)
+├── hooks.ts           # Typed useAppSelector / useAppDispatch
+├── App.tsx            # Root component with router setup
+├── store.ts           # Redux store + RootState / AppDispatch exports
 └── index.css          # Global styles
 ```
+
+---
+
+## TypeScript
+
+- **Strict mode on** (`strict: true` in `tsconfig.json`)
+- All source files are `.ts` / `.tsx` except `src/main.jsx` and `src/tests/generateTestData.jsx`
+- `allowJs: true` is kept for those two remaining JS files
+- All core types live in `src/types.ts` — import from there, do not redefine locally
+- Always use `useAppSelector` / `useAppDispatch` from `src/hooks.ts` instead of the bare Redux hooks
 
 ---
 
@@ -55,9 +70,9 @@ Three slices in `src/features/*/`:
 
 | Slice | File | Key Actions |
 |-------|------|-------------|
-| notes | `notesSlice.js` | `createNote`, `updateNote`, `deleteNote` (thunk, soft/hard), `updateNoteFolder` (thunk) |
-| folders | `foldersSlice.js` | `createFolder`, `updateFolder`, `deleteFolder`, `updateFolderCounter` |
-| tags | `tagsSlice.js` | `createTag`, `deleteTag`, `fetchTagStyles` (thunk) |
+| notes | `notesSlice.ts` | `createNote`, `updateNote`, `deleteNote` (thunk, soft/hard), `updateNoteFolder` (thunk) |
+| folders | `foldersSlice.ts` | `createFolder`, `updateFolder`, `deleteFolder`, `updateFolderCounter` |
+| tags | `tagsSlice.ts` | `createTag`, `deleteTag`, `fetchTagStyles` (thunk) |
 
 **Conventions:**
 - Selectors use `select` prefix: `selectNotes`, `selectFolderById`, `selectTagsByNames`
@@ -77,7 +92,7 @@ Three slices in `src/features/*/`:
 
 ### Data Persistence
 
-- `loadFromLocalStorage` / `saveDataToLocalStorage` in `src/utils/`
+- `loadFromLocalStorage<T>` / `saveDataToLocalStorage` in `src/utils/helpers.ts`
 - Version `"1.0"` stored in localStorage; mismatch clears all data
 - No backend API — all data is local
 
@@ -96,25 +111,26 @@ Three slices in `src/features/*/`:
 ## Key Conventions
 
 ### Files & Naming
-- React components: `PascalCase.jsx` + colocated `PascalCase.module.css`
-- Utilities/slices: `camelCase.js`
+- React components: `PascalCase.tsx` + colocated `PascalCase.module.css`
+- Utilities/slices/hooks: `camelCase.ts`
 - Feature components live alongside their slice in `src/features/<domain>/`
 
 ### Component Patterns
 - Functional components + hooks only
-- `useSelector` / `useDispatch` for Redux
-- Custom hooks in feature folders (e.g., `useTagsProcessing.js`)
+- `useAppSelector` / `useAppDispatch` from `src/hooks.ts` for Redux
+- Custom hooks in feature folders (e.g., `useTagsProcessing.ts`)
 - Reusable primitives live in `src/ui/`, not in feature folders
+- Props are typed via a colocated `interface XxxProps` at the top of each component file
 
 ### Data Modeling
 - IDs: UUID via `uuid` package
-- Notes have: `id`, `title`, `content`, `folderId`, `tags[]`, `isDeleted`, `isStarred`, `lastUpdatedDate`, `createdDate`
-- Folders have: `id`, `name`, `color`, `notesCount`. System folder id is `'0'` ("Unorganized")
-- Tags track which note IDs they belong to for cleanup (auto-delete tag with zero notes)
+- `Note`: `id`, `title`, `body`, `folderId`, `tags[]`, `isDeleted?`, `isStarred`, `lastUpdatedDate`
+- `Folder`: `id`, `name`, `color: FolderColor`, `notesCnt`, `isSystem?`. System folder id is `'0'` ("Unorganized")
+- `Tag`: `name`, `notes[]` (note IDs), `width?`, `style?`, `icon?`
 - Soft delete: `isDeleted: true` flag moves note to archive view
 
 ### Note Grouping
-Notes are grouped chronologically: Today / This Week / This Month / This Year / Older (logic in `src/features/notes/notesGrouping.js`)
+Notes are grouped chronologically: Today / This Week / This Month / This Year / Older (logic in `src/features/notes/notesGrouping.ts`)
 
 ---
 
@@ -123,6 +139,7 @@ Notes are grouped chronologically: Today / This Week / This Month / This Year / 
 **ESLint** (`.eslintrc.cjs`):
 - Extends `eslint:recommended`, `plugin:react/recommended`, `plugin:react/jsx-runtime`, `plugin:react-hooks/recommended`
 - `react/prop-types` disabled
+- Covers `.ts` and `.tsx` files
 - Zero warnings — `npm run lint` must exit clean before committing
 
 **Prettier** (`.prettierrc.json`):
@@ -135,5 +152,4 @@ Notes are grouped chronologically: Today / This Week / This Month / This Year / 
 - No backend/API layer — all CRUD is local
 - No test framework (no Jest/Vitest/RTL) — `src/tests/` only generates seed data
 - No environment variables / `.env` files
-- No TypeScript
 - No error monitoring / logging
