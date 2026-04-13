@@ -8,7 +8,7 @@ interface UserProfile {
 }
 
 const UserProfileButton = () => {
-  const user: UserProfile | undefined = undefined;
+  const user = undefined as UserProfile | undefined;
   /*  For testing purposes:
   user = {
     name: "Lina",

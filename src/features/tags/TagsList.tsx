@@ -50,8 +50,8 @@ const TagsList = ({ tags, collapsable = true, parentContainerRef }: TagsListProp
     };
   }, [parentContainerRef, calculateVisibleTags]);
 
-  const handleToggleShowAll = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleToggleShowAll = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    event?.stopPropagation();
     setShowAll(!showAll);
   };
 

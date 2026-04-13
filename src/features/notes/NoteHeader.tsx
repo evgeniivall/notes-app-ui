@@ -68,9 +68,9 @@ const NoteHeader = ({ note }: NoteHeaderProps) => {
           />
           <FolderDropdown
             selectedFolder={folder}
-            onChange={(value) => {
-              dispatch(updateNoteFolder({ id: note.id, folderId: value ? value.value : '0' }));
-            }}
+            onChange={(value) =>
+              dispatch(updateNoteFolder({ id: note.id, folderId: value ? value.value : '0' }))
+            }
           />
           <TagsSelect
             selectedTags={userTags}

@@ -1,4 +1,4 @@
-import Select, { SingleValue, StylesConfig } from 'react-select';
+import Select, { ActionMeta, OnChangeValue, StylesConfig } from 'react-select';
 import { useAppSelector } from '../../hooks';
 import { selectFolderById, selectFolders } from './foldersSlice';
 import { Folder } from '../../types';
@@ -72,7 +72,7 @@ const getCustomStyles = (): StylesConfig<FolderOption> => ({
 
 interface FolderDropdownProps {
   selectedFolder?: Folder;
-  onChange?: (value: SingleValue<FolderOption>) => void;
+  onChange?: (value: OnChangeValue<FolderOption, false>, actionMeta: ActionMeta<FolderOption>) => void;
 }
 
 const FolderDropdown = ({ selectedFolder, onChange }: FolderDropdownProps) => {
@@ -98,7 +98,7 @@ const FolderDropdown = ({ selectedFolder, onChange }: FolderDropdownProps) => {
     }));
 
   return (
-    <Select
+    <Select<FolderOption, false>
       theme={(theme) => ({
         ...theme,
         colors: { ...theme.colors, primary50: getCSSVariable('grey-400') },
