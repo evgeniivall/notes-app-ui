@@ -7,22 +7,24 @@ import FoldersManagement from '../../features/folders/FoldersManagement';
 import { AddNoteIcon } from '../../icons/icons';
 import TagsFilter from '../../features/tags/TagsFilter';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks';
 import { createNote } from '../../features/notes/notesSlice';
 import { isMobileDevice } from '../../utils/helpers';
+import { Note } from '../../types';
 
-function Sidebar({ isOpen, setIsOpen }) {
+interface SidebarProps {
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
+}
+
+function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleCreateNote = () => {
-    const action = dispatch(
-      createNote({
-        folderId: '0',
-        tags: [],
-        isStarred: false,
-      }),
-    );
+    const action = dispatch(createNote({ folderId: '0', tags: [], isStarred: false })) as {
+      payload: Note;
+    };
 
     const newNoteId = action.payload.id;
     if (isMobileDevice()) setIsOpen(false);

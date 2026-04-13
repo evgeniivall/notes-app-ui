@@ -10,7 +10,7 @@ import Search from '../ui/Search';
 import { MenuIcon } from '../icons/icons';
 
 function MainLayout() {
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(() =>
+  const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(() =>
     isMobileDevice() ? false : true,
   );
   const toggleSidebar = () => setSidebarIsOpen((isOpen) => !isOpen);
@@ -27,11 +27,7 @@ function MainLayout() {
           <Overlay onClick={toggleSidebar} />
         )}
         <Header>
-          <Button
-            type="secondary"
-            icon={<MenuIcon />}
-            onClick={toggleSidebar}
-          />
+          <Button type="secondary" icon={<MenuIcon />} onClick={toggleSidebar} />
           <Search />
         </Header>
         <Outlet />

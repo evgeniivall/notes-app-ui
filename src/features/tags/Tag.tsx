@@ -1,6 +1,15 @@
+import React from 'react';
 import styles from './Tag.module.css';
 
-function Tag({ name, icon, style = 'solid', isSelected, onClick }) {
+interface TagProps {
+  name?: string;
+  icon?: React.ReactNode;
+  style?: 'solid' | 'wired';
+  isSelected?: boolean;
+  onClick?: () => void;
+}
+
+function Tag({ name, icon, style = 'solid', isSelected, onClick }: TagProps) {
   return (
     <button
       className={`${styles.tag} ${isSelected ? styles.selected : ''} ${styles[style]}`}

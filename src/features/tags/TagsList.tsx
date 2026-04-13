@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { CloseIcon, MoreIcon } from '../../icons/icons';
 import { getFitTagsCount } from './tagWidthCalcHelpers';
@@ -5,7 +6,21 @@ import Tag from './Tag';
 import Button from '../../ui/Button';
 import styles from './TagsList.module.css';
 
-const TagsList = ({ tags, collapsable = true, parentContainerRef }) => {
+interface TagItem {
+  name?: string;
+  style?: 'solid' | 'wired';
+  icon?: React.ReactNode;
+  width?: number;
+  isSelected?: boolean;
+}
+
+interface TagsListProps {
+  tags: TagItem[];
+  collapsable?: boolean;
+  parentContainerRef: React.RefObject<HTMLElement>;
+}
+
+const TagsList = ({ tags, collapsable = true, parentContainerRef }: TagsListProps) => {
   const [showAll, setShowAll] = useState(false);
   const [maxVisibleTags, setMaxVisibleTags] = useState(tags.length);
 
@@ -16,7 +31,6 @@ const TagsList = ({ tags, collapsable = true, parentContainerRef }) => {
     }
     const parentContainerWidth = parentContainerRef.current.offsetWidth;
     const fitTagsCount = getFitTagsCount(tags, parentContainerWidth - 32);
-
     setMaxVisibleTags(fitTagsCount);
   }, [tags, parentContainerRef, collapsable]);
 
@@ -36,7 +50,7 @@ const TagsList = ({ tags, collapsable = true, parentContainerRef }) => {
     };
   }, [parentContainerRef, calculateVisibleTags]);
 
-  const handleToggleShowAll = (event) => {
+  const handleToggleShowAll = (event: React.MouseEvent) => {
     event.stopPropagation();
     setShowAll(!showAll);
   };

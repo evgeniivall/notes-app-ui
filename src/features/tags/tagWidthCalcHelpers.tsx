@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
-import Tag from './Tag'; // Adjust the path to your Tag component
+import Tag from './Tag';
 
-const renderTagToMeasure = (tagName) => {
+const renderTagToMeasure = (tagName: string): Promise<number> => {
   return new Promise((resolve) => {
     const container = document.createElement('div');
     container.style.visibility = 'hidden';
@@ -12,7 +12,7 @@ const renderTagToMeasure = (tagName) => {
     const root = createRoot(container);
 
     const observer = new MutationObserver(() => {
-      const tagElement = container.firstChild;
+      const tagElement = container.firstChild as HTMLElement | null;
       if (tagElement) {
         const width = tagElement.offsetWidth;
 
@@ -30,49 +30,50 @@ const renderTagToMeasure = (tagName) => {
   });
 };
 
-export const getTagStyles = async (tagName) => {
+export const getTagStyles = async (tagName: string): Promise<{ width: number }> => {
   const width = await renderTagToMeasure(tagName);
   return { width };
 };
 
-const calculateTextWidth = (text, font) => {
+const calculateTextWidth = (text: string, font: string): number => {
   const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext('2d')!;
   context.font = font;
   const metrics = context.measureText(text);
   return metrics.width;
 };
 
-export const calculateTagWidth = (tagName, font, padding) => {
+export const calculateTagWidth = (
+  tagName: string,
+  font: string,
+  padding: { left: number; right: number },
+): number => {
   const textWidth = calculateTextWidth(tagName, font);
-  const totalWidth = textWidth + padding.left + padding.right;
-  return totalWidth;
+  return textWidth + padding.left + padding.right;
 };
 
 const TAGS_GAP_PX = 8;
 const SHOW_MORE_BUTTON_WIDTH_PX = 24;
 
-export function getFitTagsCount(tags, containerWidth) {
+export function getFitTagsCount(tags: Array<{ width?: number }>, containerWidth: number): number {
   let totalWidth = 0;
   let fitTagsCount = 0;
 
   for (let i = 0; i < tags.length; i++) {
-    const tagWidth = tags[i].width;
+    const tagWidth = tags[i].width ?? 0;
     const nextTotalWidth =
       totalWidth + tagWidth + (fitTagsCount > 0 ? TAGS_GAP_PX : 0);
 
-    // Check if adding the next tag would exceed the container width
     if (nextTotalWidth > containerWidth) {
-      // Check if adding the "More" button will fit
       if (
         totalWidth +
           SHOW_MORE_BUTTON_WIDTH_PX +
           (fitTagsCount > 0 ? TAGS_GAP_PX : 0) <=
         containerWidth
       ) {
-        return fitTagsCount; // If "More" button fits, return the current count
+        return fitTagsCount;
       } else {
-        return fitTagsCount - 1; // If not, return count excluding the last tag
+        return fitTagsCount - 1;
       }
     }
 
@@ -80,6 +81,5 @@ export function getFitTagsCount(tags, containerWidth) {
     fitTagsCount++;
   }
 
-  // All tags fit, no need for "More" button
   return fitTagsCount;
 }

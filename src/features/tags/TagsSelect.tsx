@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { components } from 'react-select';
+import { components, ControlProps, GroupBase, StylesConfig } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks';
 import { selectTags } from './tagsSlice';
+import { Tag } from '../../types';
 import { TagIcon } from '../../icons/icons';
 import { getCSSVariable } from '../../utils/helpers';
 import styles from './TagsSelect.module.css';
 
-const getCustomStyles = () => ({
+type TagOption = { value: string; label: string };
+
+const getCustomStyles = (): StylesConfig<TagOption, true> => ({
   control: (provided) => ({
     ...provided,
     height: '40px',
@@ -72,7 +75,10 @@ const getCustomStyles = () => ({
   }),
 });
 
-const CustomControl = ({ children, ...props }) => (
+const CustomControl = ({
+  children,
+  ...props
+}: ControlProps<TagOption, true, GroupBase<TagOption>>) => (
   <components.Control {...props}>
     <div className={styles.control}>
       <TagIcon className={styles.tagsIcon} />
@@ -81,19 +87,24 @@ const CustomControl = ({ children, ...props }) => (
   </components.Control>
 );
 
-const TagsSelect = ({ selectedTags, onChange }) => {
-  const allTags = useSelector(selectTags);
-  const [options, setOptions] = useState([]);
+interface TagsSelectProps {
+  selectedTags: Tag[];
+  onChange: (tagNames: string[]) => void;
+}
+
+const TagsSelect = ({ selectedTags, onChange }: TagsSelectProps) => {
+  const allTags = useAppSelector(selectTags);
+  const [options, setOptions] = useState<TagOption[]>([]);
 
   useEffect(() => {
     setOptions(allTags.map((tag) => ({ value: tag.name, label: tag.name })));
   }, [allTags]);
 
-  const handleCreateTag = (inputValue) => {
+  const handleCreateTag = (inputValue: string) => {
     onChange([...selectedTags.map((tag) => tag.name), inputValue]);
   };
 
-  const handleChange = (selected) => {
+  const handleChange = (selected: readonly TagOption[]) => {
     onChange(selected.map((tag) => tag.value));
   };
 

@@ -1,21 +1,20 @@
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import { selectTags } from './tagsSlice';
+import { Tag as TagType } from '../../types';
 import Tag from './Tag';
 import Button from '../../ui/Button';
 import styles from './TagsFilter.module.css';
 
-const mapNamesToIndices = (tagNames, allTags) => {
-  const indices = tagNames
+const mapNamesToIndices = (tagNames: string[], allTags: TagType[]): number[] => {
+  return tagNames
     .map((name) => allTags.findIndex((tag) => tag.name === name))
     .filter((index) => index !== -1);
-
-  return indices;
 };
 
 function TagsFilter() {
-  const tags = useSelector(selectTags);
+  const tags = useAppSelector(selectTags);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,21 +27,16 @@ function TagsFilter() {
   const selectedTagIndices = getSelectedTagIndicesFromLocation();
 
   const updateTagsURLParams = useCallback(
-    (newSelectedTagIndices) => {
+    (newSelectedTagIndices: number[]) => {
       const params = new URLSearchParams(location.search);
       if (newSelectedTagIndices.length > 0) {
-        const selectedTags = newSelectedTagIndices.map(
-          (index) => tags[index].name,
-        );
+        const selectedTags = newSelectedTagIndices.map((index) => tags[index].name);
         params.set('tags', selectedTags.join(','));
       } else {
         params.delete('tags');
       }
       navigate(
-        {
-          pathname: location.pathname,
-          search: params.toString(),
-        },
+        { pathname: location.pathname, search: params.toString() },
         { replace: true },
       );
     },
@@ -50,7 +44,7 @@ function TagsFilter() {
   );
 
   const handleTagClick = useCallback(
-    (index) => {
+    (index: number) => {
       const newSelectedTagIndices = selectedTagIndices.includes(index)
         ? selectedTagIndices.filter((i) => i !== index)
         : [...selectedTagIndices, index];

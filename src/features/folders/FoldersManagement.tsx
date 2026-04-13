@@ -1,26 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Folder } from '../../types';
 import Button from '../../ui/Button';
 import FolderItem from './FolderItem';
 import { AddFolderIcon } from '../../icons/icons';
-import {
-  createFolder,
-  deleteFolder,
-  selectFolders,
-  updateFolder,
-} from './foldersSlice';
+import { createFolder, deleteFolder, selectFolders, updateFolder } from './foldersSlice';
 import { FOLDER_COLOR_OPTIONS } from '../../constants/constants';
 import styles from './FoldersManagement.module.css';
 import { selectNotes } from '../notes/notesSlice';
 
-const folderNameIsExist = (name, folders) => {
+const folderNameIsExist = (name: string, folders: Folder[]): boolean => {
   return folders.some((folder) => folder.name === name);
 };
 
-const generateNewFolderName = (folders) => {
+const generateNewFolderName = (folders: Folder[]): string => {
   let folderNumber = 0;
-  let newFolderName;
+  let newFolderName: string;
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -33,34 +29,27 @@ const generateNewFolderName = (folders) => {
   }
 };
 
-const getFolderIndexes = (folderIds, folders) => {
-  const indices = folderIds
+const getFolderIndexes = (folderIds: string[], folders: Folder[]): number[] => {
+  return folderIds
     .map((id) => folders.findIndex((folder) => folder.id === id))
     .filter((index) => index !== -1);
-
-  return indices;
 };
 
 function FoldersManagement() {
-  const folders = useSelector(selectFolders);
+  const folders = useAppSelector(selectFolders);
   const [isInEditMode, setIsInEditMode] = useState(false);
-  const [indexInEdit, setIndexInEdit] = useState(undefined);
+  const [indexInEdit, setIndexInEdit] = useState<number | undefined>(undefined);
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const notes = useSelector(selectNotes);
+  const dispatch = useAppDispatch();
+  const notes = useAppSelector(selectNotes);
 
   useEffect(() => {
     const unorganizedNotesCount = notes.reduce((cnt, note) => {
       return note.folderId === '0' ? cnt + 1 : cnt;
     }, 0);
 
-    dispatch(
-      updateFolder({
-        id: '0',
-        updates: { notesCnt: unorganizedNotesCount },
-      }),
-    );
+    dispatch(updateFolder({ id: '0', updates: { notesCnt: unorganizedNotesCount } }));
   }, [notes, dispatch]);
 
   const getActiveFolderIndicesFromLocation = useCallback(() => {
@@ -73,21 +62,18 @@ function FoldersManagement() {
 
   const activeFolderIndices = getActiveFolderIndicesFromLocation();
 
-  const updateUrlParams = (newActiveFolderIndices, needMapping = true) => {
+  const updateUrlParams = (newActiveFolderIndices: number[], needMapping = true) => {
     const params = new URLSearchParams(location.search);
     if (newActiveFolderIndices.length > 0) {
       const activeFolderIds = needMapping
         ? newActiveFolderIndices.map((index) => folders[index].id)
-        : newActiveFolderIndices;
+        : newActiveFolderIndices.map(String);
       params.set('folders', activeFolderIds.join(','));
     } else {
       params.delete('folders');
     }
     navigate(
-      {
-        pathname: location.pathname,
-        search: params.toString(),
-      },
+      { pathname: location.pathname, search: params.toString() },
       { replace: true },
     );
   };
@@ -101,13 +87,13 @@ function FoldersManagement() {
     setIndexInEdit(0);
   };
 
-  const handleDeleteFolder = (index) => {
+  const handleDeleteFolder = (index: number) => {
     dispatch(deleteFolder({ id: folders[index].id }));
     setIndexInEdit(undefined);
     updateUrlParams(activeFolderIndices.filter((i) => i !== index));
   };
 
-  const handleFolderClick = (index) => {
+  const handleFolderClick = (index: number) => {
     if (isInEditMode) {
       setIndexInEdit(index);
     } else {
@@ -119,7 +105,7 @@ function FoldersManagement() {
   };
 
   const handleFolderUpdate = useCallback(
-    (id, updates) => dispatch(updateFolder({ id, updates })),
+    (id: string, updates: Partial<Folder>) => dispatch(updateFolder({ id, updates })),
     [dispatch],
   );
 

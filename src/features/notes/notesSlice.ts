@@ -71,7 +71,7 @@ const notesSlice = createSlice({
 
 export const deleteNote = createAsyncThunk<
   void,
-  { id: string; type?: 'hard' | 'soft' },
+  { id: string; type?: 'hard' | 'soft'; updateFolder?: boolean },
   { state: RootState }
 >('notes/deleteNote', async ({ id, type = 'hard' }, { dispatch, getState }) => {
   const oldNote = getState().notes.notes.find((note) => note.id === id);

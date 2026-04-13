@@ -1,9 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useState } from 'react';
 import { deleteNote, updateNote, updateNoteFolder } from './notesSlice';
 import { selectFolderById } from '../folders/foldersSlice';
 import { getCSSVariable } from '../../utils/helpers';
 import { ArrowIcon, TrashWiredIcon } from '../../icons/icons';
+import { Note } from '../../types';
 import BreadCrumbs from './BreadCrumbs';
 import Button from '../../ui/Button';
 import styles from './NoteHeader.module.css';
@@ -13,12 +14,16 @@ import StarToggle from '../../ui/StarToggle';
 import { selectTagsByNames } from '../tags/tagsSlice';
 import { useNavigate } from 'react-router-dom';
 
-const NoteHeader = ({ note }) => {
-  const dispatch = useDispatch();
+interface NoteHeaderProps {
+  note: Note;
+}
+
+const NoteHeader = ({ note }: NoteHeaderProps) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const folder = useSelector((state) => selectFolderById(state, note.folderId));
-  const userTags = useSelector((state) => selectTagsByNames(state, note.tags));
+  const folder = useAppSelector((state) => selectFolderById(state, note.folderId));
+  const userTags = useAppSelector((state) => selectTagsByNames(state, note.tags));
 
   return (
     <div className={styles.noteHeader}>
@@ -35,9 +40,7 @@ const NoteHeader = ({ note }) => {
             <Button
               icon={
                 <ArrowIcon
-                  className={
-                    isCollapsed ? styles.expandIcon : styles.collapseIcon
-                  }
+                  className={isCollapsed ? styles.expandIcon : styles.collapseIcon}
                 />
               }
               type="secondary"
@@ -56,42 +59,23 @@ const NoteHeader = ({ note }) => {
             />
           </div>
         </div>
-        <div
-          className={`${styles.lineTwo} ${!isCollapsed ? styles.expanded : ''}`}
-        >
+        <div className={`${styles.lineTwo} ${!isCollapsed ? styles.expanded : ''}`}>
           <StarToggle
             starred={note.isStarred}
             onChange={() =>
-              dispatch(
-                updateNote({
-                  id: note.id,
-                  updates: { isStarred: !note.isStarred },
-                }),
-              )
+              dispatch(updateNote({ id: note.id, updates: { isStarred: !note.isStarred } }))
             }
           />
           <FolderDropdown
             selectedFolder={folder}
             onChange={(value) => {
-              dispatch(
-                updateNoteFolder({
-                  id: note.id,
-                  folderId: value ? value.value : '0',
-                }),
-              );
+              dispatch(updateNoteFolder({ id: note.id, folderId: value ? value.value : '0' }));
             }}
           />
           <TagsSelect
             selectedTags={userTags}
             onChange={(tags) => {
-              dispatch(
-                updateNote({
-                  id: note.id,
-                  updates: {
-                    tags,
-                  },
-                }),
-              );
+              dispatch(updateNote({ id: note.id, updates: { tags } }));
             }}
           />
         </div>

@@ -1,8 +1,16 @@
 import { CheckIcon } from '../../icons/icons';
 import { getCSSVariable } from '../../utils/helpers';
+import { FolderColor } from '../../types';
 import styles from './ColorBox.module.css';
 
-function ColorBox({ color, interactable = true, isActive = false, onClick }) {
+interface ColorBoxProps {
+  color: FolderColor;
+  interactable?: boolean;
+  isActive?: boolean;
+  onClick?: () => void;
+}
+
+function ColorBox({ color, interactable = true, isActive = false, onClick }: ColorBoxProps) {
   return (
     <div
       className={`${styles.colorBoxContainer} ${isActive ? styles.active : ''}`}

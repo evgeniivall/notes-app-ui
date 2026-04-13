@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchTagStyles } from './tagsSlice';
 
-const useTagProcessing = () => {
-  const dispatch = useDispatch();
-  const tags = useSelector((state) => state.tags.tags);
+const useTagProcessing = (): void => {
+  const dispatch = useAppDispatch();
+  const tags = useAppSelector((state) => state.tags.tags);
 
   useEffect(() => {
     tags.forEach((tag) => {

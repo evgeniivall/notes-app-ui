@@ -1,7 +1,13 @@
 import { isToday, isThisWeek, isThisMonth, isThisYear } from 'date-fns';
+import { Note } from '../../types';
 
-export function groupNotesByDate(notes) {
-  const groups = {
+interface NoteGroup {
+  name: string;
+  notes: Note[];
+}
+
+export function groupNotesByDate(notes: Note[]): NoteGroup[] {
+  const groups: Record<string, Note[]> = {
     today: [],
     thisWeek: [],
     thisMonth: [],
@@ -10,7 +16,7 @@ export function groupNotesByDate(notes) {
   };
 
   notes
-    .sort((a, b) => new Date(b.lastUpdatedDate) - new Date(a.lastUpdatedDate))
+    .sort((a, b) => new Date(b.lastUpdatedDate).getTime() - new Date(a.lastUpdatedDate).getTime())
     .forEach((note) => {
       const noteDate = new Date(note.lastUpdatedDate);
       if (isToday(noteDate)) {

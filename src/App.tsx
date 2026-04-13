@@ -1,8 +1,4 @@
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import MainLayout from './pages/MainLayout';
 import PopulateStoreWithTestData from './tests/generateTestData';
 import useTagProcessing from './features/tags/useTagsProcessing';
@@ -37,7 +33,6 @@ const router = createBrowserRouter([
 
 function App() {
   useTagProcessing();
-
   return <RouterProvider router={router} />;
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import { getCSSVariable } from '../../utils/helpers';
 import { ArrowIcon } from '../../icons/icons';
 import { selectFolderById } from '../folders/foldersSlice';
@@ -8,25 +8,31 @@ import { getDateTag } from '../tags/systemTags';
 import TagsList from '../tags/TagsList';
 import Star from '../../ui/Star';
 import { selectTagsByNames } from '../tags/tagsSlice';
+import { Note } from '../../types';
 import styles from './NoteItem.module.css';
 
-const NoteItem = ({ noteData, selectedTags, isActive }) => {
+interface NoteItemProps {
+  noteData: Note;
+  selectedTags?: string[];
+  isActive: boolean;
+}
+
+const NoteItem = ({ noteData, selectedTags, isActive }: NoteItemProps) => {
   const { id, title, lastUpdatedDate, isStarred, tags, folderId } = noteData;
   const [contentWrapped, setContentWrapped] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const contentContainerRef = useRef();
-  const folder = useSelector((state) => selectFolderById(state, folderId));
+  const contentContainerRef = useRef<HTMLDivElement>(null);
+  const folder = useAppSelector((state) => selectFolderById(state, folderId));
   const dateTag = useMemo(() => getDateTag(lastUpdatedDate), [lastUpdatedDate]);
-  const userTags = useSelector((state) => selectTagsByNames(state, tags));
+  const userTags = useAppSelector((state) => selectTagsByNames(state, tags));
 
   const tagsList = useMemo(() => {
-    let baseTags = userTags.map((tag) => ({
+    const baseTags = userTags.map((tag) => ({
       ...tag,
       isSelected: selectedTags?.includes(tag.name),
     }));
-
     return contentWrapped ? [dateTag, ...baseTags] : [...baseTags, dateTag];
   }, [userTags, contentWrapped, dateTag, selectedTags]);
 
@@ -41,7 +47,6 @@ const NoteItem = ({ noteData, selectedTags, isActive }) => {
 
     const observer = new ResizeObserver(checkContentWrapping);
     observer.observe(contentContainer);
-
     checkContentWrapping();
 
     return () => {
@@ -50,10 +55,7 @@ const NoteItem = ({ noteData, selectedTags, isActive }) => {
   }, []);
 
   const handleClick = () => {
-    navigate({
-      pathname: `/notes/${id}`,
-      search: searchParams.toString(),
-    });
+    navigate({ pathname: `/notes/${id}`, search: searchParams.toString() });
   };
 
   return (
@@ -69,7 +71,7 @@ const NoteItem = ({ noteData, selectedTags, isActive }) => {
       </div>
       <div className={styles.content} ref={contentContainerRef}>
         <div className={styles.titleContainer}>
-          {isStarred && <Star starred={true} />}
+          {isStarred && <Star />}
           <div className={styles.title}>{title || 'New note'}</div>
         </div>
         <TagsList

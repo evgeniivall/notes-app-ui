@@ -2,10 +2,16 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowIcon, CloseIcon } from '../../icons/icons';
 import { isMobileDevice } from '../../utils/helpers';
+import { Folder } from '../../types';
 import Button from '../../ui/Button';
 import styles from './BreadCrumbs.module.css';
 
-const BreadCrumbs = ({ folder, noteTitle }) => {
+interface BreadCrumbsProps {
+  folder?: Folder;
+  noteTitle?: string;
+}
+
+const BreadCrumbs = ({ folder, noteTitle }: BreadCrumbsProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -17,10 +23,7 @@ const BreadCrumbs = ({ folder, noteTitle }) => {
       type="secondary"
       size="medium"
       onClick={() => {
-        navigate({
-          pathname: '/notes',
-          search: searchParams.toString(),
-        });
+        navigate({ pathname: '/notes', search: searchParams.toString() });
       }}
     />
   );
@@ -28,9 +31,7 @@ const BreadCrumbs = ({ folder, noteTitle }) => {
   const renderBreadcrumbs = () => {
     const crumbs = [
       { label: 'Notes', link: '/notes' },
-      ...(folder
-        ? [{ label: folder.name, link: `/notes?folders=${folder.id}` }]
-        : []),
+      ...(folder ? [{ label: folder.name, link: `/notes?folders=${folder.id}` }] : []),
       { label: title },
     ];
 

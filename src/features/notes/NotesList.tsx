@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks';
 import { selectDeletedNotes, selectNotes } from './notesSlice';
 import { groupNotesByDate } from './notesGrouping';
 import NoteItem from './NoteItem';
@@ -10,9 +10,13 @@ import styles from './NotesList.module.css';
 import Button from '../../ui/Button';
 import MessagePanel from '../../ui/MessagePanel';
 
-function NotesList({ activeNoteId }) {
-  const notes = useSelector(selectNotes);
-  const deletedNotes = useSelector(selectDeletedNotes);
+interface NotesListProps {
+  activeNoteId?: string;
+}
+
+function NotesList({ activeNoteId }: NotesListProps) {
+  const notes = useAppSelector(selectNotes);
+  const deletedNotes = useAppSelector(selectDeletedNotes);
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = useMemo(
@@ -31,19 +35,15 @@ function NotesList({ activeNoteId }) {
     if (filter === 'deleted') return deletedNotes;
 
     return notes.filter((note) => {
-      /* Filter by tags */
       const hasTags =
         selectedTags.length === 0 ||
         selectedTags.some((tag) => note.tags.includes(tag));
 
-      /* Filter by search query */
       const matchesSearch =
         !searchQuery || note.title.toLowerCase().includes(searchQuery);
 
-      /* Filter by folders */
       const inFolders = folders.length === 0 || folders.includes(note.folderId);
 
-      /* Filter by starred */
       const starred = filter != 'starred' || note.isStarred;
 
       return hasTags && matchesSearch && inFolders && starred;
@@ -76,9 +76,7 @@ function NotesList({ activeNoteId }) {
           <Button
             type="primary"
             label="Reset all filters"
-            onClick={() =>
-              navigate({ pathname: location.pathname, search: '' })
-            }
+            onClick={() => navigate({ pathname: location.pathname, search: '' })}
           />
         }
       />

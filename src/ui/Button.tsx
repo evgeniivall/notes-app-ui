@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Button.module.css';
 
 interface ButtonProps {
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   icon?: React.ReactNode;
   label?: string;
   type: 'primary' | 'secondary' | 'tertiary' | 'wired';

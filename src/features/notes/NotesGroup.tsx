@@ -1,6 +1,12 @@
+import React from 'react';
 import styles from './NotesGroup.module.css';
 
-function NotesGroup({ name, children }) {
+interface NotesGroupProps {
+  name?: string | false;
+  children: React.ReactNode;
+}
+
+function NotesGroup({ name, children }: NotesGroupProps) {
   return (
     <div className={styles.notesGroup}>
       {name && <span className={styles.name}>{name}</span>}

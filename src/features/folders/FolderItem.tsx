@@ -1,15 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 import { EditIcon, TrashIcon } from '../../icons/icons';
-import {
-  FOLDER_COLOR_OPTIONS,
-  FOLDER_NAME_MAX_LENGTH,
-} from '../../constants/constants';
+import { FOLDER_COLOR_OPTIONS, FOLDER_NAME_MAX_LENGTH } from '../../constants/constants';
+import { Folder, FolderColor } from '../../types';
 import ColorPicker from './ColorPicker';
 import ColorBox from './ColorBox';
 import Button from '../../ui/Button';
 import Input from '../../ui/Input';
 import styles from './FolderItem.module.css';
 import { normalizeWhitespace } from '../../utils/helpers';
+
+interface FolderItemProps {
+  folder: Folder;
+  inEditMode?: boolean;
+  isActive?: boolean;
+  onClick?: () => void;
+  handleDelete: () => void;
+  handleUpdate: (id: string, updates: Partial<Folder>) => void;
+  nameIsUnique: (name: string) => boolean;
+}
 
 function FolderItem({
   folder,
@@ -19,12 +27,12 @@ function FolderItem({
   handleDelete,
   handleUpdate,
   nameIsUnique,
-}) {
+}: FolderItemProps) {
   const { name, color, notesCnt, isSystem } = folder;
   const [nameValidationError, setNameValidationError] = useState('');
   const [tempFolderName, setTempFolderName] = useState(folder.name);
 
-  const handleNameChange = (newName) => {
+  const handleNameChange = (newName: string) => {
     let error = '';
     const trimmedNewname = normalizeWhitespace(newName);
     if (trimmedNewname === '') error = 'Folder name cannot be empty.';
@@ -38,7 +46,7 @@ function FolderItem({
   };
 
   const handleColorChange = useCallback(
-    (color) => handleUpdate(folder.id, { color }),
+    (color: FolderColor) => handleUpdate(folder.id, { color }),
     [folder.id, handleUpdate],
   );
 
@@ -53,15 +61,7 @@ function FolderItem({
         setTempFolderName(normalizeWhitespace(name));
       }
     }
-  }, [
-    isActive,
-    inEditMode,
-    tempFolderName,
-    handleUpdate,
-    nameValidationError,
-    folder.id,
-    name,
-  ]);
+  }, [isActive, inEditMode, tempFolderName, handleUpdate, nameValidationError, folder.id, name]);
 
   return (
     <li
@@ -78,6 +78,7 @@ function FolderItem({
             value={tempFolderName}
             error={nameValidationError}
             onChange={handleNameChange}
+            label={name}
           />
         ) : (
           <span className={styles.folderTitle}>{name}</span>
