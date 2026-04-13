@@ -1,13 +1,21 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getTagStyles } from './tagWidthCalcHelpers';
-import {
-  loadFromLocalStorage,
-  saveDataToLocalStorage,
-} from '../../utils/helpers';
+import { loadFromLocalStorage, saveDataToLocalStorage } from '../../utils/helpers';
 import { _deleteNote, createNote, updateNote } from '../notes/notesSlice';
+import { Tag } from '../../types';
+import type { RootState } from '../../store';
 
-export const fetchTagStyles = createAsyncThunk(
+interface TagsState {
+  tags: Tag[];
+}
+
+interface StoredTag {
+  name: string;
+  notes: string[];
+}
+
+export const fetchTagStyles = createAsyncThunk<{ tagName: string; width: number }, string>(
   'tags/fetchTagStyles',
   async (tagName) => {
     const { width } = await getTagStyles(tagName);
@@ -15,8 +23,8 @@ export const fetchTagStyles = createAsyncThunk(
   },
 );
 
-const initialState = {
-  tags: loadFromLocalStorage('tags'),
+const initialState: TagsState = {
+  tags: loadFromLocalStorage<StoredTag[]>('tags', []),
 };
 
 const tagsSlice = createSlice({
@@ -24,15 +32,15 @@ const tagsSlice = createSlice({
   initialState,
   reducers: {
     createTag: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<StoredTag>) => {
         state.tags.push(action.payload);
         saveDataToLocalStorage('tags', state.tags);
       },
-      prepare: ({ name }) => {
-        return { payload: { name } };
+      prepare: ({ name }: { name: string }) => {
+        return { payload: { name, notes: [] as string[] } };
       },
     },
-    deleteTag: (state, action) => {
+    deleteTag: (state, action: PayloadAction<{ name: string }>) => {
       state.tags = state.tags.filter((tag) => tag.name !== action.payload.name);
       saveDataToLocalStorage('tags', state.tags);
     },
@@ -53,14 +61,11 @@ const tagsSlice = createSlice({
           const existingTag = state.tags.find((t) => t.name === tag);
 
           if (existingTag) {
-            if (!existingTag.notes.includes(id)) {
-              existingTag.notes.push(id);
+            if (!existingTag.notes?.includes(id)) {
+              existingTag.notes = [...(existingTag.notes || []), id];
             }
           } else {
-            state.tags.push({
-              name: tag,
-              notes: [id],
-            });
+            state.tags.push({ name: tag, notes: [id] });
           }
         });
         saveDataToLocalStorage('tags', state.tags);
@@ -75,30 +80,24 @@ const tagsSlice = createSlice({
 
         // Remove the note from tags that are no longer associated with it
         existingTags.forEach((tag) => {
-          if (tag.notes.includes(id) && !noteTags.includes(tag.name)) {
-            // Remove the note id from this tag
+          if (tag.notes?.includes(id) && !noteTags.includes(tag.name)) {
             tag.notes = tag.notes.filter((noteId) => noteId !== id);
           }
         });
 
         // Remove tags that have no more notes associated
-        state.tags = state.tags.filter((tag) => tag.notes.length > 0);
+        state.tags = state.tags.filter((tag) => tag.notes?.length > 0);
 
         // Add note to the new tags, or create them if they don't exist
         noteTags.forEach((newTag) => {
           const existingTag = state.tags.find((tag) => tag.name === newTag);
 
           if (existingTag) {
-            // Add the note.id to the tag's notes array if not already present
-            if (!existingTag.notes.includes(id)) {
-              existingTag.notes.push(id);
+            if (!existingTag.notes?.includes(id)) {
+              existingTag.notes = [...(existingTag.notes || []), id];
             }
           } else {
-            // Create new tag if it doesn't exist
-            state.tags.push({
-              name: newTag,
-              notes: [id],
-            });
+            state.tags.push({ name: newTag, notes: [id] });
           }
         });
         saveDataToLocalStorage('tags', state.tags);
@@ -107,13 +106,10 @@ const tagsSlice = createSlice({
         const noteId = action.payload.id;
 
         // Remove the note association from all tags
-        state.tags = state.tags.map((tag) => {
-          // Remove the note id from this tag's notes
-          return {
-            ...tag,
-            notes: tag.notes.filter((id) => id !== noteId),
-          };
-        });
+        state.tags = state.tags.map((tag) => ({
+          ...tag,
+          notes: tag.notes.filter((id) => id !== noteId),
+        }));
 
         // Remove tags that have no more notes associated
         state.tags = state.tags.filter((tag) => tag.notes.length > 0);
@@ -122,16 +118,16 @@ const tagsSlice = createSlice({
   },
 });
 
-export const selectTags = (state) => state.tags.tags;
-export const selectTagByName = (state, tagName) =>
+export const selectTags = (state: RootState) => state.tags.tags;
+export const selectTagByName = (state: RootState, tagName: string) =>
   state.tags.tags.find((tag) => tag.name === tagName);
 export const selectTagsByNames = createSelector(
-  (state) => state.tags.tags,
-  (_, tagNames) => tagNames,
+  (state: RootState) => state.tags.tags,
+  (_: RootState, tagNames: string[]) => tagNames,
   (tags, tagNames) =>
     tagNames
       .map((name) => tags.find((tag) => tag.name === name))
-      .filter((tag) => tag !== undefined),
+      .filter((tag): tag is Tag => tag !== undefined),
 );
 
 export const { deleteTag } = tagsSlice.actions;

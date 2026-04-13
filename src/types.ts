@@ -15,6 +15,7 @@ export interface Folder {
   name: string;
   color: FolderColor;
   notesCnt: number;
+  isSystem?: boolean;
 }
 
 export interface Note {
