@@ -1,19 +1,19 @@
-export const getCSSVariable = (name) => `var(--${name})`;
+export const getCSSVariable = (name: string): string => `var(--${name})`;
 
-export function normalizeWhitespace(str) {
+export function normalizeWhitespace(str: string): string {
   return str.trim().replace(/\s+/g, ' ');
 }
 
-export function formatDateToDayMonth(date) {
-  const options = { day: 'numeric', month: 'short' };
+export function formatDateToDayMonth(date: number | Date | string): string {
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
   return new Date(date).toLocaleDateString('en-US', options);
 }
 
-export function loadFromLocalStorage(
-  name,
-  fallback = [],
-  expectedVersion = '1.0',
-) {
+export function loadFromLocalStorage<T>(
+  name: string,
+  fallback: T = [] as unknown as T,
+  expectedVersion: string = '1.0',
+): T {
   const storedVersion = localStorage.getItem('version');
 
   // If version doesn't match or is missing, return fallback and clear local storage
@@ -33,7 +33,7 @@ export function loadFromLocalStorage(
   }
 
   try {
-    return JSON.parse(storedData);
+    return JSON.parse(storedData) as T;
   } catch (error) {
     console.error(
       `Error parsing localStorage data for key: ${name}. Clearing localStorage...`,
@@ -45,10 +45,16 @@ export function loadFromLocalStorage(
   }
 }
 
-export function saveDataToLocalStorage(name, data, version = '1.0') {
+// unknown is safer than any — it forces callers to be explicit about
+// what they're saving, rather than silently accepting anything.
+export function saveDataToLocalStorage(
+  name: string,
+  data: unknown,
+  version: string = '1.0',
+): void {
   localStorage.setItem(name, JSON.stringify(data));
   localStorage.setItem('version', version);
 }
 
 const SM_BREAKPOINT = 768;
-export const isMobileDevice = () => window.innerWidth < SM_BREAKPOINT;
+export const isMobileDevice = (): boolean => window.innerWidth < SM_BREAKPOINT;
