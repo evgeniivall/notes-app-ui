@@ -33,7 +33,7 @@ The project is currently in its early stages, featuring basic functionality with
 
 ### Technologies Used
 
-- **Frontend**: React, React Router, Redux, CSS Modules
+- **Frontend**: React, TypeScript, React Router, Redux Toolkit, CSS Modules
 - **Containerization**: Docker
 - **Build Tool**: Vite
 
