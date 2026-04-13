@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { StarFilledIcon, StarOutlineIcon } from '../icons/icons';
 import styles from './StarToggle.module.css';
 
-function StarToggle({ starred = false, onChange }) {
+interface StarToggleProps {
+  starred?: boolean;
+  onChange?: (isStarred: boolean) => void;
+}
+
+function StarToggle({ starred = false, onChange }: StarToggleProps) {
   const [isStarred, setIsStarred] = useState(starred);
 
   const handleToggle = () => {

@@ -1,6 +1,13 @@
 import styles from './Input.module.css';
 
-const Input = ({ label, value, onChange, error }) => {
+interface InputProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+}
+
+const Input = ({ label, value, onChange, error }: InputProps) => {
   return (
     <div className={styles.inputContainer}>
       <input

@@ -1,8 +1,14 @@
 import styles from './UserProfileSection.module.css';
 import { UserIcon } from '../../icons/icons';
 
+interface UserProfile {
+  name: string;
+  email: string;
+  image: string;
+}
+
 const UserProfileButton = () => {
-  const user = undefined;
+  const user: UserProfile | undefined = undefined;
   /*  For testing purposes:
   user = {
     name: "Lina",

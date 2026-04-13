@@ -1,6 +1,15 @@
+import React from 'react';
 import styles from './Button.module.css';
 
-function Button({ onClick, icon, label, type, size = 'large' }) {
+interface ButtonProps {
+  onClick?: () => void;
+  icon?: React.ReactNode;
+  label?: string;
+  type: 'primary' | 'secondary' | 'tertiary' | 'wired';
+  size?: 'large' | 'medium';
+}
+
+function Button({ onClick, icon, label, type, size = 'large' }: ButtonProps) {
   return (
     <button
       className={`${styles.button} ${styles[type]} ${styles[size]}`}

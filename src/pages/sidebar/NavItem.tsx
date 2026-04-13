@@ -1,10 +1,18 @@
+import React from 'react';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import styles from './NavItem.module.css';
 
-function NavItem({ icon, label, to, query }) {
+interface NavItemProps {
+  icon: React.ReactNode;
+  label: string;
+  to: string;
+  query?: { key: string; value: string };
+}
+
+function NavItem({ icon, label, to, query }: NavItemProps) {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const getClassName = ({ isActive }) => {
+  const getClassName = ({ isActive }: { isActive: boolean }) => {
     let className = styles.navItem + ' ';
     if (isActive) {
       const hasNoSearchParams = !searchParams.get('filter');

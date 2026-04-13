@@ -4,7 +4,7 @@ import MessagePanel from '../ui/MessagePanel';
 
 function ErrorPage() {
   const navigate = useNavigate();
-  const error = useRouteError();
+  const error = useRouteError() as { status?: number };
   let errorTitle = 'An Unexpected Error Occurred';
   let errorSubtitle = 'Something went wrong. Please try reloading the page.';
   let img = '/images/error-general.png';

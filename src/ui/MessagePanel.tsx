@@ -1,6 +1,14 @@
+import React from 'react';
 import styles from './MessagePanel.module.css';
 
-function MessagePanel({ title, subtitle, imageUrl, button }) {
+interface MessagePanelProps {
+  title: string;
+  subtitle: string;
+  imageUrl: string;
+  button?: React.ReactNode;
+}
+
+function MessagePanel({ title, subtitle, imageUrl, button }: MessagePanelProps) {
   return (
     <div className={styles.container}>
       <img src={imageUrl} alt="No notes found" className={styles.image} />

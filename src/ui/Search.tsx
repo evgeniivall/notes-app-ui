@@ -12,7 +12,7 @@ function Search() {
     setSearchValue(searchQuery);
   }, [searchQuery]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
 

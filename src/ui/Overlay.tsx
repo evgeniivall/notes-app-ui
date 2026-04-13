@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './Overlay.module.css';
 
-const Overlay = ({ onClick }) => {
+interface OverlayProps {
+  onClick: () => void;
+}
+
+const Overlay = ({ onClick }: OverlayProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
